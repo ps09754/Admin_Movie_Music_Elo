@@ -1,4 +1,4 @@
-var dbPassword = 'mongodb+srv://elomovie:elomovie@cluster0.gvvb9.mongodb.net/EloMovie?retryWrites=true&w=majority'
+var dbPassword = 'mongodb+srv://admin:admin@cluster0.6555r.mongodb.net/Phim?retryWrites=true&w=majority'
 
 module.exports = {
     mongoURI: dbPassword

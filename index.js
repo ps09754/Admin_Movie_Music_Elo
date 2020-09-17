@@ -1,7 +1,14 @@
 var express = require('express');
+const bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 var app = express();
+// set layout ejs
+app.set('view engine', 'ejs');
+app.set('views', './views');
+// setting bodyparser
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
 const db = require('./Contants/MongoKey').mongoURI;
 mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true }, function (err) {
@@ -15,28 +22,11 @@ mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true }, functi
 })
 
 // route film
-const Film = require('./Routes/Film.route');
-Film(app)
-
-// route cast
-const Cast = require('./Routes/Cast.route');
-Cast(app);
-
-// route Episode
-const Episode = require('./Routes/Episode.route')
-Episode(app)
-
-//route Category
+const Movie = require('./Routes/Movie.route');
+Movie(app)
+// route category
 const Category = require('./Routes/Category.route')
 Category(app)
-
-// api film 
-const api_film = require('./Routes/Api_Film.route')
-api_film(app)
-
-// Title 
-const Title = require('./Routes/Title.route')
-Title(app)
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, console.log(`Server started on port ${PORT}`));

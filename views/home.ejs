@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+    integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+  <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script> -->
+
+  <!-- datatable -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+  <script type="text/javascript" charset="utf8"
+    src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+
+  <title>Home</title>
+  <link rel="stylesheet" href="css/index.css">
+  <script>
+    $(document).ready(function () {
+      $('#myTable').DataTable();
+    });
+  </script>
+  <script>
+    $(document).ready(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  </script>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <nav class="navbar bg-light navbar-dark">
+      <h2 class="text-justify  bd-highlight font-weight-lighter">Home</h2>
+      <a href="/logout" data-toggle="tooltip" title="Logout!" class="btn btn-inline align-middle"><i
+          class="fas fa-sign-out-alt"></i></a>
+    </nav>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-2">
+        <ul class="list-group list-group-flush">
+          <a href="/truyen" class="list-group-item text-decoration-none list-group-item-action active">Quản Lí
+            Phim</a>
+          <a href="/theloai" class="list-group-item text-decoration-none list-group-item-action">Quản Lí Thể Loại Phim</a>
+          <a href="/chude" class="list-group-item text-decoration-none list-group-item-action">Quản Lí Chủ Đề Phim </a>
+        </ul>
+      </div>
+
+      <div class="col-sm-7">
+        <div class="mt-3">
+          <table id="myTable" class="display mt-3">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">IMG</th>
+                <th scope="col">Tên Phim</th>
+                <th scope="col">Đạo Diễn</th>
+                <th scope="col">Thể Loại</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- form addtruyen -->
+      <div class="col-sm-3 mt-3">
+        <div class="col-sm-10 card  mx-auto">
+          <h2>Thêm Phim</h2>
+          <form class="ml-3" action="/addtruyen" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+              <label for="id">ID Phim</label>
+              <input type="text" class="form-control-file pl-2" id="id" placeholder="" name="idtruyen">
+            </div>
+            <div class="form-group">
+              <label for="tentruyen">Tên Phim:</label>
+              <input type="text" class="form-control-file pl-2" id="tentruyen" placeholder="" name="tentruyen">
+            </div>
+            <div class="form-group">
+              <label for="link">Thể Loại :</label>
+              <select name="theloai" class="custom-select mb-3">
+                <option selected>....</option>
+  
+              </select>
+            </div>
+            <div class="form-group ">
+              <div class=""> Hình Ảnh</div>
+              <div class="d-flex" style="width:100px; height:100px">
+                <img class="img-thumbnail img-pre" src="http://placehold.it/100" title="Hình ảnh" width="100"
+                  height="100">
+              </div>
+              <input type="file" name="file" id="img" hidden>
+              <label for="img">Thay đổi</label>
+            </div>
+            <div class="form-group">
+              <label for="tacgia">Tác Giả:</label>
+              <input type="text" class="form-control-file pl-2" id="tacgia" placeholder="" name="tacgia">
+            </div>
+            <div class="form-group">
+              <label for="noidung">Nội Dung :</label>
+              <textarea class="form-control pl-2" placeholder="" rows="5" id="noidung" name="noidung"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary mb-2">Thêm Truyện</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- form delete -->
+
+  <form action="/deletetruyen" method="POST">
+    <div class="modal fade" id="Deletetruyen" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Xoá Truyện</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body text-danger">
+            <p class="product_delete_name"></p>
+            <p>Nếu bạn xóa truyện này thì tất cả dữ liệu liên quan cũng sẽ bị xóa theo</p>
+          </div>
+
+          <div class="modal-footer">
+            <input type="hidden" name="idtruyen" class="product_id2">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+            <button type="submit" class="btn btn-primary">Xóa</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <!-- form updatetruyen -->
+  <form action="/updatetruyen" method="POST" enctype="multipart/form-data">
+    <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Edit Product</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="text-center">
+              <img class="imgss blah" src="" alt="your image" height="100" width="100" />
+              <input type='file' onchange="readURL(this);" name="avatar1" class="sel" />
+
+            </div>
+            <div class="md-form mb-5"><label class="float-left" data-error="wrong" data-success="right"
+                for="id_truyen">ID:</label>
+              <input type="text" id="theloai" class="form-control validate id_truyen" name="idtruyen" />
+
+            </div>
+            <div class="md-form mb-5"><label class="float-left" data-error="wrong" data-success="right"
+                for="ten">Tên</label>
+              <input type="text" id="ten" class="form-control validate ten" name="tentruyen">
+              <p id="p1"></p>
+            </div>
+            <div class="form-group">
+              <label for="link">Thể Loại :</label>
+              <select name="theloai" class="custom-select mb-3">
+                
+              </select>
+            </div>
+
+            <div class="md-form mb-5"><label class="float-left" data-error="wrong" data-success="right" for="tacgia">Tác
+                Giả:</label>
+              <input class="form-control pl-2 tacgia" placeholder="" id="tacgia" name="tacgia"></input>
+            </div>
+
+            <div class="md-form mb-5"><label class="float-left" data-error="wrong" data-success="right" for="tacgia">Nội
+                Dung :</label>
+              <input class="form-control pl-2 noidung" placeholder="" id="noidung" name="noidung"></input>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <input type="hidden" name="id" class="id2">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Update</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <script>
+    $(document).ready(function () {
+      $("#tim").on("keyup", function () {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function () {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+      $('#myTable').on('click', '.delete', function () {
+        var product_ids = $(this).data('id');
+        var product_names = $(this).data('product_namedel');
+        $('#Deletetruyen').modal('show');
+        // $('.product_delete_name').val(product_names);
+        $('.product_delete_name').text('Bạn chắc chắn muốn xoá ' + product_names);
+        $('.product_id2').val(product_ids);
+      });
+
+      $('#myTable').on('click', '.edit', function () {
+
+        //nhan du lieu
+        var id_truyen = $(this).data('id_truyen');
+        var ten = $(this).data('ten');
+        var theloai = $(this).data('theloai');
+        var tacgia = $(this).data('tacgia');
+        var hinhanh = $(this).data('hinhanh');
+        var noidung = $(this).data('noidung');
+        //show modal
+        $('#EditModal').modal('show');
+        //gan du lieu vao class trong modal
+        $('.id_truyen').val(id_truyen);
+        $('.ten').val(ten);
+        $('.noidung').val(noidung);
+        // $('.theloai').val(theloai);
+        $('.tacgia').val(tacgia);
+        $('.id2').val(id);
+        $('.imgss').attr("src", "http://localhost:5000/" + hinhanh);
+        //$('#EditModal').attr('src', $('img').attr('http://localhost:3000/'+hinhanh));
+
+        if ($('#select-department option:selected').length > 0) {
+          $('#select-department option:selected').removeAttr("selected");
+        }
+        $("#select-department option:contains(" + theloai +
+          ")").attr('selected', 'selected');
+
+        $("#select-department option:contains(" + theloai +
+          ")").prop('selected', true);
+
+
+      });
+
+    });
+
+
+    function readURL(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+          $('.blah').attr('src', e.target.result);
+        };
+        reader.readAsDataURL(input.files[0]);
+
+      }
+
+
+
+    }
+  </script>
+  <script>
+    window.onload = function () {
+      function readURL(input) {
+        if (input.files && input.files[0]) {
+          var reader = new FileReader();
+
+          reader.onload = function (e) {
+            document.querySelector('.img-pre').setAttribute('src', e.target.result);
+          };
+          reader.readAsDataURL(input.files[0]);
+        }
+      }
+
+      var imageInput = document.querySelector('#img');
+      imageInput.onchange = changeEventHandler;
+      function changeEventHandler(event) {
+        readURL(this);
+      }
+    };
+  </script>
+</body>
+
+</html>

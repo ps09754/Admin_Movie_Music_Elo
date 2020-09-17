@@ -1,9 +1,14 @@
-const mongooes = require('mongoose');
-const schema = mongooes.Schema;
+const mongoose = require("mongoose");
+const schema = mongoose.Schema;
 
 const category = new schema({
-    name: String,
-    movieId:[],
+    name:{type:String,minlength:5,maxlength:100},
+    position:Number,
+    status:{type:String},
+    create_at:Date,
+    update_at:Date,
+    delete_at:Date,
+
 });
 
-module.exports = mongooes.model('Category', category); 
+module.exports = mongoose.model("tbl_category", category);
