@@ -10,5 +10,5 @@ module.exports = function (app) {
     app.route('/api/movie/get_full_movie/:movie_id')
         .get(Movie._getMovie_detail_byID)// get full data phim by movie_id
     app.route('/api/movie/getMovieByCategoryId/:category_id')
-        .get(Movie._getMovie_by_categoryID)
+        .get(Movie._getMovie_by_categoryID)// get data by category id
 };
