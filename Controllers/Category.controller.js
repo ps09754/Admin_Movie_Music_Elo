@@ -82,7 +82,7 @@ exports._addCategoryPostBody=(req,res)=>{
 // get category by category_id
 exports._getCategory_by_category_ID= (req,res) =>{
     new Promise((resolve,reject)=>{
-        Category.find({category_id:req.params.category_id},function(err,cate){
+        Category.find({_id:req.params.category_id},function(err,cate){
             if(err){
                 res.json({
                     result:false,

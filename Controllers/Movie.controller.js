@@ -145,12 +145,56 @@ exports._getMovieByID=(req,res)=>{
 
 // get detail film by movie_id
 exports._getMovie_detail_byID= async (req,res)=>{
-       await Category_Movie.find({movie_id:req.params.movie_id}).populate('category_id')
+       await Category_Movie.find({'movie_id':req.params.movie_id}).populate('category_id')
+        .exec( function(err,data){
+            console.log(data);
+            if(err){
+                res.json({
+                    result:false,
+                    message:'get Category fail ! '+err.message,
+                    items:[]
+                });
+            }else{
+               Movie.find({_id:req.params.movie_id},function(error,movie){
+                    if(error){
+                        res.json({
+                            result:false,
+                            message:'get movie fail '+error.message,
+                            items:[]
+                        });
+                    }else{
+                        res.json({
+                            result:true,
+                            message:'result ok',
+                            category:data.map((callback,index)=>{
+                                return {index:index,name: callback.category_id.name,category_id: callback.category_id._id}
+                            } ),
+                            movie:movie,
+                        });
+                    }
+                })
+            }
+        })
+
+}
+
+// get movie by category_id
+exports._getMovie_by_categoryID=(req,res)=>{
+    Category_Movie.find({category_id:req.params.category_id}).populate('movie_id')
         .exec(function(err,data){
             if(err){
-                console.log(err);
+                res.json({
+                    result:false,
+                    message:'get movie by category_id fail ! '+err.message,
+                    items:[]
+                });
             }else{
-                console.log(data);
+                res.json({
+                    result:false,
+                    message:'get Category_id ok ! ',
+                    items:data
+                });
             }
         })
 }
+
