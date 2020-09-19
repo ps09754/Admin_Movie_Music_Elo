@@ -30,6 +30,12 @@ Category(app)
 //route category_movie
 const Category_Movie = require('./Routes/Category_Movie.route')
 Category_Movie(app)
+// route user
+const User = require('./Routes/User.route')
+User(app)
+// route cast
+const Cast = require('./Routes/Cast.route')
+Cast(app)
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, console.log(`Server started on port ${PORT}`));
