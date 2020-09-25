@@ -23,9 +23,3 @@ const user = new schema({
 });
 
 module.exports = mongoose.model("tbl_user", user);
-// const user = new schema({
-//     idToken_google: String,
-//     user_google: {type:Object},
-//     idToken_facebook:String,
-//     user_facebook={type:Object}
-// });

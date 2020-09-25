@@ -16,7 +16,7 @@ const Movie = new schema({
     duration:{type:String, minlength:2 , maxlength:100},
     episode: {type:Number},
     score: Number,
-    introduction:{type:String, minlength:2 , maxlength:300},
+    introduction:{type:String, minlength:2 },
     cover_img:{type:String, minlength:2 , maxlength:300},
 });
 

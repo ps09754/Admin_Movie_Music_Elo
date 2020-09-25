@@ -53,13 +53,13 @@ exports._addCategory_Movie_Post_body=(req,res)=>{
             res.json({
                 result:true,
                 message:'Add category_movie ok!',
-                items:data
+                items:new_cate_movie
             });
         }
     })
 }
 
-// add category movie by post params
+// add category_movie by post params
 exports._addCategory_Movie_Post_params=(req,res)=>{
     let new_cate_movie = new Category_Movie({
         status:req.params.status,
@@ -77,11 +77,24 @@ exports._addCategory_Movie_Post_params=(req,res)=>{
                 status:'Error add Category_movie'
             });
         }else{
-            res.json({
-                result:true,
-                message:'Add category_movie ok!',
-                items:data
-            });
+            Movie.findByIdAndUpdate({_id:req.params.movie_id},{
+                update_at:moment(new Date()).format('YYYY-MM-DDTHH:mm:ss'),
+            },function(err1){
+                if(err1){
+                    res.json({
+                        result:false,
+                        message:err1.message,
+                        status:'Error edit Movie Update at'
+                    });
+                }else{
+                    res.json({
+                        result:true,
+                        message:'Add category_movie ok!',
+                        items:new_cate_movie
+                    });
+                    console.log(req.params.movie_id);
+                }
+            })
         }
     })
 }

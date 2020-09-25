@@ -74,6 +74,7 @@ exports._addCategoryPostBody=(req,res)=>{
             res.json({
                 result:true,
                 message:'OK',
+                items:cate
                });
         }
     })
@@ -119,4 +120,8 @@ exports._getAllCategory = async (req,res) =>{
             })
         }
     })
+}
+
+exports._updateCategory_by_ID = async (req,res) =>{
+    
 }

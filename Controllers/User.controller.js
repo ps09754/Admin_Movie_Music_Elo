@@ -6,7 +6,7 @@ const User = require('../Models/User');
 const moment = require('moment');
 
 
-exports._addUser_by_google =async (req,res) =>{
+exports._addUser =async (req,res) =>{
     let new_user = new User({
         create_at:moment(new Date()).format('YYYY-MM-DDTHH:mm:ss'),
         update_at:moment(new Date()).format('YYYY-MM-DDTHH:mm:ss'),
