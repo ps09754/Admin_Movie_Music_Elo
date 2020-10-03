@@ -46,7 +46,7 @@ exports._addCategory_Movie_Post_body=(req,res)=>{
         if(err){
             res.json({
                 result:false,
-                message:error.message,
+                message:err.message,
                 status:'Error add Category_movie'
             });
         }else{

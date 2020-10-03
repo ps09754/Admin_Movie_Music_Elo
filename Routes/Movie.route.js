@@ -1,16 +1,25 @@
-const { request } = require('express');
 
 module.exports = function (app) {
     const Movie = require('../Controllers/Movie.controller')
-   app.route('/api/movie/add')
+   app.route('/v1/movie/add')
         .get(Movie._addMovie) // add mặc định đã gắn dữ liệu
         .post(Movie._addMoviePostBody) //add post với data request body
-    app.route('/api/movie/getbyid/:movie_id')
+    app.route('/v3/movie/get/id/:_id')
         .get(Movie._getMovieByID)// get phim by movie_id
-    app.route('/api/movie/get_full_movie/:movie_id')
+    app.route('/v3/movie/get/full/:movie_id')
         .get(Movie._getMovie_detail_byID)// get full data phim by movie_id
-    app.route('/api/movie/getMovieByCategoryId/:category_id')
+    app.route('/v3/movie/get/category/:category_id')
         .get(Movie._getMovie_by_categoryID)// get data by category id
-    app.route('/api/movie/v3/all')
+    app.route('/v3/movie//get/all')
         .get(Movie._getAllMovie)    
+    app.route('/v4/movie/update/:_id')
+        .post(Movie._updateMovie)
+    app.route('/v3/movie/get/create_at')
+        .get(Movie._getMovieByCreate_at)
+
+    app.route('/v5/movie/delete/:_id')
+        .get(Movie._deleteMovie)
+
+    app.route('/v2/movie/set/score/:_id')
+        .get(Movie._setScore)
 };

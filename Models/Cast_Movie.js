@@ -10,4 +10,4 @@ const cast_movie = new schema({
     movie_id:{type:schema.Types.ObjectId,ref: 'tbl_movie'},
 });
 
-module.exports = mongoose.model("tbl_category_movie", cast_movie);
+module.exports = mongoose.model("tbl_cast_movie", cast_movie);

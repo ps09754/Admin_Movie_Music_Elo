@@ -37,5 +37,13 @@ User(app)
 const Cast = require('./Routes/Cast.route')
 Cast(app)
 
+// route castMovie
+const castMovie = require('./Routes/Cast_Movie.route')
+castMovie(app)
+
+// route video 
+const video = require('./Routes/Video.route')
+video(app)
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, console.log(`Server started on port ${PORT}`));

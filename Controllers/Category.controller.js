@@ -122,6 +122,43 @@ exports._getAllCategory = async (req,res) =>{
     })
 }
 
-exports._updateCategory_by_ID = async (req,res) =>{
-    
+exports._updateCategory = async (req,res) =>{
+    await Category.updateOne({_id:req.params._id},{
+        name:req.body.name,
+        position:req.body.position,
+        status:req.body.status,
+        update_at:moment().format('YYYY-MM-DD HH:mm:ss')
+    },function(err){
+        if (err) {
+            res.json({
+                result: false,
+                message: err.message,
+                status: 'Error update category'
+            });
+        }else{
+            res.json({
+                result: true,
+                status: 'update category ok!'
+            });
+        }
+    })
+}
+
+exports._deleteCategory = async(req,res) =>{
+    await Category.updateOne({_id:req.params._id},{
+        delete_at:moment().format('YYYY-MM-DD HH:mm:ss')
+    },function(err){
+        if (err) {
+            res.json({
+                result: false,
+                message: err.message,
+                status: 'Error delete category'
+            });
+        }else{
+            res.json({
+                result: true,
+                status: ' delete category ok!'
+            });
+        }
+    })
 }

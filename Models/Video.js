@@ -2,16 +2,14 @@ const mongoose = require("mongoose");
 const schema = mongoose.Schema;
 
 const video = new schema({
-    status:{type:String,minlength:5,maxlength:300},
+    status:{type:String,maxlength:300},
     create_at:Date,
     update_at:Date,
     delete_at:Date,
-    movie_id:String,
-    title:{type:String,minlength:5,maxlength:300},
-    synopsis:{type:String,minlength:10,maxlength:400},
-    position:{type:String,minlength:5,maxlength:300},
+    movie_id:{type:schema.Types.ObjectId,ref: 'tbl_movie'},
+    title:{type:String,minlength:5},
+    position:Number,
     link:String,
-    id_link_youtube:String,
     type_source:String,
 
 });

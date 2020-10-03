@@ -2,3 +2,108 @@ const Category = require('../Models/Category');
 const Category_Movie = require('../Models/Category_Movie')
 const Video = require('../Models/Video');
 const Movie = require('../Models/Movie')
+const moment = require('moment');
+
+exports._addVideo = async(req,res)=>{
+    let newVideo  = new Video({
+        status : req.body.status,
+        create_at: moment().format('YYYY-MM-DD HH:mm:ss'),
+        update_at:null,
+        delete_at:null,
+        movie_id:req.body.movie_id,
+        title:req.body.title,
+        position:req.body.position,
+        link:req.body.link,
+        type_source:req.body.type_source
+    })
+
+    newVideo.save(function(err){
+        if (err) {
+            res.json({
+                result:false,
+                message:'add video movie fail'+err.message
+            })
+        }else{
+            res.json({
+                result:true,
+                message:'add video movie ok',
+                items:newVideo
+            })
+        }
+    })
+}
+
+exports._updateVideo = async(req,res) =>{
+    await Video.updateOne({_id:req.params._id},{
+        title:req.body.title,
+        update_at:moment().format('YYYY-MM-DD HH:mm:ss'),
+        status: req.body.status,
+        position:req.body.position,
+        link:req.body.link,
+        type_source:req.body.type_source
+    },function(err){
+        if(err){
+            res.json({
+                result:false,
+                message:'update video movie fail'+err.message
+            })
+        }else{
+            res.json({
+                result:true,
+                message:'update video movie ok'
+            })
+        }
+    })
+}
+
+exports._getVideo = async(req,res)=>{
+    await Video.findOne({_id:req.params._id},function(err,video){
+        if (err) {
+            res.json({
+                result:false,
+                message:'get video movie fail'+err.message
+            })
+        }else{
+            res.json({
+                result:true,
+                message:'get video movie ok',
+                items:video
+            })
+        }
+    })
+}
+
+exports._getAllVideoByMovie = async(req,res)=>{
+    await Video.find({movie_id:req.params._id},function(err,data){
+        if (err) {
+            res.json({
+                result:false,
+                message:'get video movie fail'+err.message
+            })
+        }else{
+            res.json({
+                result:true,
+                message:'get video movie ok',
+                items:data
+            })
+        }
+    })
+}
+
+exports._deleteVideo = async(req,res)=>{
+    await Video.updateOne({_id:req.params._id},{
+        delete_at:moment().format('YYYY-MM-DD HH:mm:ss')
+    },function(err){
+        if (err) {
+            res.json({
+                result:false,
+                message:'delete video fail '+err.message
+            })
+        }else{
+            res.json({
+                result:true,
+                message:' delete video ok '
+            })
+        }
+    })
+}
