@@ -9,6 +9,8 @@ app.set('views', './views');
 // setting bodyparser
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+// public static folder
+app.use(express.static('Publics'));
 
 const db = require('./Contants/MongoKey').mongoURI;
 mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true }, function (err) {
@@ -44,6 +46,11 @@ castMovie(app)
 // route video 
 const video = require('./Routes/Video.route')
 video(app)
+
+// route views
+const views = require('./Routes/Views.route')
+views(app)
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, console.log(`Server started on port ${PORT}`));

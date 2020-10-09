@@ -73,20 +73,20 @@ exports._addMoviePostBody = (req, res) => {
     let movie_new = new Movie({
         name: req.body.name,
         directer: req.body.directer,
-        status: req.body.status,
+        status: '0/??',
         create_at: moment(new Date()).format('YYYY-MM-DDTHH:mm:ss'),
-        update_at: moment(new Date()).format('YYYY-MM-DDTHH:mm:ss'),
+        update_at: null,
         delete_at: null,
-        starring: req.body.starring,
         screenwriter: req.body.screenwriter,
         country: req.body.country,
         language: req.body.language,
         years: req.body.years,
         duration: req.body.duration,
-        episode: req.body.episode,
-        score: req.body.score,
+        episode: 0,
+        score: 0,
         introduction: req.body.introduction,
         cover_img: req.body.cover_img,
+        trailer:req.body.trailer
     })
     movie_new.save(error => {
         if (error) {
