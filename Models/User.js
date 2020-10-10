@@ -6,15 +6,15 @@ const user = new schema({
     update_at:Date,
     delete_at:Date,
     token_google: {
-        idToken: String,
+        idToken: {type: String, unique: true, require: true},
         user: {
-            email: String,
+            email: {type: String, unique: true, require: true},
             photo: String, 
             name: String 
         }
     },
     token_facebook: {
-        idToken:String,
+        idToken: {type: String, unique: true, require: true},
         user:{
             name:String,
             photo:String,
