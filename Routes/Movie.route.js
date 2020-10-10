@@ -2,7 +2,6 @@
 module.exports = function (app) {
     const Movie = require('../Controllers/Movie.controller')
    app.route('/v1/movie/add')
-        .get(Movie._addMovie) // add mặc định đã gắn dữ liệu
         .post(Movie._addMoviePostBody) //add post với data request body
     app.route('/v3/movie/get/id/:_id')
         .get(Movie._getMovieByID)// get phim by movie_id

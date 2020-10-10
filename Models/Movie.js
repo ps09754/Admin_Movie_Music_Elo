@@ -8,6 +8,7 @@ const Movie = new schema({
     create_at: Date ,
     update_at:Date,
     delete_at:Date,
+    trailer:String,
     screenwriter:{type:String, minlength:2 , maxlength:100},
     country:{type:String, minlength:2 , maxlength:100},
     language:{type:String, minlength:2 , maxlength:100},
