@@ -51,6 +51,10 @@ video(app)
 const views = require('./Routes/Views.route')
 views(app)
 
+// History
+const History = require('./Routes/History.route')
+History(app)
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, console.log(`Server started on port ${PORT}`));
