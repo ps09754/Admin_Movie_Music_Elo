@@ -1,24 +1,60 @@
 const History = require('../Models/History')
 const moment = require('moment');
+const User = require('../Models/User');
 exports._addHistory=async(req,res)=>{
-    let history = new History({
-        create_at:moment().format('YYYY-MM-DD HH:mm'),
-        movie_id:req.body.movie_id,
-        video_id:req.body.video_id,
-        duration:req.body.duration,
-        user_id:req.body.user_id,
-    })
-    history.save(function (err) {
-        if(err){
+    await History.findOne({'movie_id':req.body.movie_id},function(err,history){
+        if (err) {
             res.json({
                 result:false,
-                message:'Add history fail '+err.message
+                message:'check movie history fail',
+                position:1
             })
-        }else{
-            res.json({
-                result:true,
-                message:'add ok!'
-            })
+        }else {
+            if (history === [] || history === null) {
+                let history = new History({
+                    create_at:moment().format('YYYY-MM-DD HH:mm'),
+                    movie_id:req.body.movie_id,
+                    video_id:req.body.video_id,
+                    duration:req.body.duration,
+                    user_id:req.body.user_id,
+                })
+                history.save(function (err) {
+                    if(err){
+                        res.json({
+                            result:false,
+                            message:'Add history fail '+err.message,
+                            position:1
+                        })
+                    }else{
+                        res.json({
+                            result:true,
+                            message:'add history ok!',
+                            position:2
+                        })
+                    }
+                })
+            }else{
+                History.findOneAndUpdate({'movie_id':req.body.movie_id},{
+                    create_at:moment().format('YYYY-MM-DD HH:mm'),
+                    video_id:req.body.video_id,
+                    duration:req.body.duration,
+                    user_id:req.body.user_id,
+                },function(error){
+                    if (error) {
+                        res.json({
+                            result:false,
+                            position:1,
+                            message:'update history fail '+error.message
+                        })
+                    }else{
+                        res.json({
+                            result:true,
+                            position:2,
+                            message:'update history ok !'
+                        })
+                    }
+                })
+            }
         }
     })
 }

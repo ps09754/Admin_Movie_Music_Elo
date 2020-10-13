@@ -55,6 +55,13 @@ views(app)
 const History = require('./Routes/History.route')
 History(app)
 
+// Evaluate 
+const Evaluate = require('./Routes/Evaluate.route')
+Evaluate(app)
+
+//comment
+const Comment = require('./Routes/Comment.route')
+Comment(app)
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, console.log(`Server started on port ${PORT}`));
