@@ -1,25 +1,20 @@
 const mongoose = require("mongoose");
 const schema = mongoose.Schema;
 
-const user = new schema({
-    create_at:Date,
-    update_at:Date,
-    delete_at:Date,
-    token_google: {
-        idToken: String,
-        user: {
-            email: String,
-            photo: String, 
-            name: String 
-        }
+var user = new mongoose.Schema({
+    google: {
+        name: { type: String },
+        gmail: { type: String },
+        photo: { type: String },
+        token: { type: String }
     },
-    token_facebook: {
-        idToken:String,
-        user:{
-            name:String,
-            photo:String,
-        }
-     }
+    facebook: {
+        id: { type: String },
+        token: { type: String },
+        gmail: { type: String },
+        name: { type: String },
+        photo: { type: String }
+    }
 });
 
 module.exports = mongoose.model("tbl_user", user);
