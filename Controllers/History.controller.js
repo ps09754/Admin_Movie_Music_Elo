@@ -73,7 +73,7 @@ exports._findHistory = async (req,res)=>{
                 items: data
             })
         }
-    })
+    }).sort({'create_at':-1})
 }
 
 exports._deleteHistory = async (req,res) =>{
