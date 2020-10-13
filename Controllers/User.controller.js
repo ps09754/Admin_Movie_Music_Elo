@@ -7,7 +7,7 @@ const moment = require('moment');
 
 exports._addUser = async (req, res) => {
     if (req.params.type === 'f') {
-        User.findOne({ 'facebook.gmail': req.body.gmail }, function (e1, r1) {
+        User.findOne({ 'facebook.id': req.body.id }, function (e1, r1) {
             if (e1) {
                 res.json({
                     result: false,
