@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const schema = mongoose.Schema;
 
 var user = new mongoose.Schema({
+    login_at:Date,
     google: {
         name: { type: String },
         gmail: { type: String },

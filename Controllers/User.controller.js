@@ -23,8 +23,9 @@ exports._addUser = async (req, res) => {
                             gmail: req.body.gmail,
                             photo: req.body.photo,
                             token: req.body.token,
-                            id: req.body.id
-                        }
+                            id: req.body.id,
+                        },
+                        login_at:moment().format('YYYY-MM-DD HH:mm')
                     })
 
                     user.save(function (e2) {
@@ -43,11 +44,24 @@ exports._addUser = async (req, res) => {
                         }
                     })
                 } else {
-                    res.json({
-                        result: true,
-                        position: 1.2,
-                        message: 'check data user facebook -> return 1 user',
-                        items: r1
+                    User.findOneAndUpdate({ 'facebook.gmail': req.body.gmail },{
+                        login_at:moment().format('YYYY-MM-DD HH:mm'),
+                    },function(er1){
+                        if (er1) {
+                            res.json({
+                                result: false,
+                                position: 1.1,
+                                message: 'check data user facebook -> update login fail '+er1.message,
+                                
+                            })
+                        }else{
+                            res.json({
+                                result: true,
+                                position: 1.2,
+                                message: 'check data user facebook -> return 1 user',
+                                items: r1
+                            })
+                        }
                     })
                 }
             }
