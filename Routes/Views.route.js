@@ -1,6 +1,6 @@
 
 module.exports = function (app) {
     const Views= require('../Controllers/Views.controller')
-    app.route('/Film')
+    app.route('/Dashboard')
         .get(Views._ViewFilm)
 };
