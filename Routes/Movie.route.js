@@ -9,7 +9,7 @@ module.exports = function (app) {
         .get(Movie._getMovie_detail_byID)// get full data phim by movie_id
     app.route('/v3/movie/get/category/:category_id')
         .get(Movie._getMovie_by_categoryID)// get data by category id
-    app.route('/v3/movie/get/all')
+    app.route('/v3/movie//get/all')
         .get(Movie._getAllMovie)    
     app.route('/v4/movie/update/:_id')
         .post(Movie._updateMovie)
