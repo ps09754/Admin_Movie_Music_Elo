@@ -40,7 +40,7 @@ exports._addMoviePostBody = (req, res) => {
         } else {
 
             res.json({
-                result: false,
+                result: true,
                 message: 'result ok movie',
                 movie: movie_new,
             });

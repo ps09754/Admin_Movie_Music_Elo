@@ -10,10 +10,10 @@ exports._addCast = async (req, res) => {
     let new_cast = new Cast({
         name: req.body.name,
         cover_image: req.body.cover_image,
-        birthday: moment(req.body.birthday, 'YYYY-MM-DDTHH:mm:ss'),
+        birthday: moment(req.body.birthday, 'YYYY-MM-DD'),
         nation: req.body.nation,
         create_at: moment(new Date()).format('YYYY-MM-DDTHH:mm:ss'),
-        update_at: moment(new Date()).format('YYYY-MM-DDTHH:mm:ss'),
+        update_at: null,
         delete_at: null,
         view: 0,
         story: req.body.story
