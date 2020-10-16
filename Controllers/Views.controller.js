@@ -7,7 +7,7 @@ exports._ViewFilm=function (req,res){
                 message:'Result fail '+err.message
             })
         }else{
-            res.render('Film',{movie:movie})
+            res.render('Dashboard',{movie:movie})
         }
     })
 }
