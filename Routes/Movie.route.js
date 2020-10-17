@@ -21,4 +21,6 @@ module.exports = function (app) {
 
     app.route('/v2/movie/set/score/:_id')
         .get(Movie._setScore)
+    app.route('/v6/movie/query/:text')
+        .get(Movie._search)
 };

@@ -9,8 +9,8 @@ const moment = require('moment');
 // add movie by body
 
 exports._addMoviePostBody = (req, res) => {
-    console.log(req.body.name+'abc');
-    var {name,directer,screenwriter,country,language,years,duration,introduction,cover_img,trailer} = req.body
+    console.log(req.body.name + 'abc');
+    var { name, directer, screenwriter, country, language, years, duration, introduction, cover_img, trailer } = req.body
     let movie_new = new Movie({
         name: name,
         directer: directer,
@@ -27,7 +27,7 @@ exports._addMoviePostBody = (req, res) => {
         score: 0,
         introduction: introduction,
         cover_img: cover_img,
-        trailer:trailer
+        trailer: trailer
     })
     movie_new.save(error => {
         if (error) {
@@ -85,15 +85,15 @@ exports._getMovie_detail_byID = async (req, res) => {
                     items: []
                 });
             } else {
-                Cast_Movie.find({'movie_id': req.params.movie_id }).populate('cast_id')
-                    .exec(function(err1,cast){
+                Cast_Movie.find({ 'movie_id': req.params.movie_id }).populate('cast_id')
+                    .exec(function (err1, cast) {
                         if (err1) {
                             res.json({
                                 result: false,
                                 message: 'get cast fail ! ' + err.message,
                                 items: []
                             });
-                        }else{
+                        } else {
                             Movie.find({ _id: req.params.movie_id }, function (error, movie) {
                                 if (error) {
                                     res.json({
@@ -109,15 +109,15 @@ exports._getMovie_detail_byID = async (req, res) => {
                                             return { index: index, name: element.category_id.name, category_id: element.category_id._id }
                                         }),
                                         movie: movie,
-                                        cast:cast.map((e,idx) =>{
-                                            return {index:idx,name:e.cast_id.name, cover_img:e.cast_id.cover_image , _id:e.cast_id._id}
+                                        cast: cast.map((e, idx) => {
+                                            return { index: idx, name: e.cast_id.name, cover_img: e.cast_id.cover_image, _id: e.cast_id._id }
                                         })
                                     });
                                 }
                             })
                         }
                     })
-               
+
             }
         })
 
@@ -195,34 +195,34 @@ exports._updateMovie = async (req, res) => {
 }
 
 // get movie by new Create_at
-exports._getMovieByCreate_at = async (req,res)=>{
-    await Movie.find({},function(err,data){
+exports._getMovieByCreate_at = async (req, res) => {
+    await Movie.find({}, function (err, data) {
         if (err) {
             res.json({
                 result: false,
                 message: 'get movie sort create_at fail : ' + err.message,
             });
-        }else{
+        } else {
             res.json({
                 result: true,
                 message: 'get movie sort create ok!',
-                items:data
+                items: data
             });
         }
-    }).sort({'create_at':-1})
+    }).sort({ 'create_at': -1 })
 }
 
 // delete
-exports._deleteMovie = async (req,res) =>{
-    await Movie.updateOne({_id:req.params._id},{
-        delete_at:moment().format('YYYY-MM-DD HH:mm:ss')
-    },function(err){
+exports._deleteMovie = async (req, res) => {
+    await Movie.updateOne({ _id: req.params._id }, {
+        delete_at: moment().format('YYYY-MM-DD HH:mm:ss')
+    }, function (err) {
         if (err) {
             res.json({
                 result: false,
                 message: 'delete movie fail : ' + err.message,
             });
-        }else{
+        } else {
             res.json({
                 result: true,
                 message: 'delete movie ok ',
@@ -232,24 +232,24 @@ exports._deleteMovie = async (req,res) =>{
 }
 
 // api set score movie
-exports._setScore = async(req,res)=>{
-    await Movie.find({_id:req.params._id},function(err,data){
+exports._setScore = async (req, res) => {
+    await Movie.find({ _id: req.params._id }, function (err, data) {
         if (err) {
             res.json({
                 result: false,
                 message: 'get movie set score fail : ' + err.message,
             });
-        }else{
+        } else {
             console.log(data);
-            Movie.updateOne({_id:req.params._id},{
-                score: data[0].score +1
-            },function(err1){
+            Movie.updateOne({ _id: req.params._id }, {
+                score: data[0].score + 1
+            }, function (err1) {
                 if (err1) {
                     res.json({
                         result: false,
                         message: 'set score movie fail : ' + err1.message,
                     });
-                }else{
+                } else {
                     res.json({
                         result: true,
                         message: 'set score movie ok ',
@@ -258,4 +258,39 @@ exports._setScore = async(req,res)=>{
             })
         }
     })
+}
+
+exports._search = async (req, res) => {
+
+    var regex = new RegExp([`.*${req.params.text}.*`].join(""), "i");
+
+    Cast.find({ "name": regex }).exec(function(e,cast){
+        if (e) {
+            res.json({
+                result: false,
+                message: 'search movie faill ' + e.message
+            })
+        } else {
+            Movie.find({ "name": regex }).exec(function (err, data) {
+                if (err) {
+                    res.json({
+                        result: false,
+                        message: 'search movie faill ' + err.message
+                    })
+                } else {
+                    res.json({
+                        result: true,
+                        message: 'ok co data',
+                        movie: data,
+                        cast:cast
+                    })
+                }
+            })
+        
+        }
+    })
+
+
+
+
 }
