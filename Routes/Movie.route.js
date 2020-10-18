@@ -15,6 +15,8 @@ module.exports = function (app) {
         .post(Movie._updateMovie)
     app.route('/v3/movie/get/create_at')
         .get(Movie._getMovieByCreate_at)
+    app.route('/v3/movie/get/score')
+        .get(Movie._getMovieByScore)
 
     app.route('/v5/movie/delete/:_id')
         .get(Movie._deleteMovie)

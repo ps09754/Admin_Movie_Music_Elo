@@ -50,6 +50,25 @@ exports._addMoviePostBody = (req, res) => {
 
 }
 
+
+//get movie by score
+exports._getMovieByScore = async (req, res) => {
+    await Movie.find({}, function (err, data) {
+        if (err) {
+            res.json({
+                result: false,
+                message: 'get movie by score hight fail' + err.message
+            })
+        } else {
+            res.json({
+                result: true,
+                message: 'get movie by score hight ok',
+                items: data
+            })
+        }
+    }).limit(10).sort({'score':-1})
+}
+
 // get Movie by id
 exports._getMovieByID = (req, res) => {
     new Promise((resolve, reject) => {
@@ -264,7 +283,7 @@ exports._search = async (req, res) => {
 
     var regex = new RegExp([`.*${req.params.text}.*`].join(""), "i");
 
-    Cast.find({ "name": regex }).exec(function(e,cast){
+    Cast.find({ "name": regex }).exec(function (e, cast) {
         if (e) {
             res.json({
                 result: false,
@@ -282,11 +301,11 @@ exports._search = async (req, res) => {
                         result: true,
                         message: 'ok co data',
                         movie: data,
-                        cast:cast
+                        cast: cast
                     })
                 }
             })
-        
+
         }
     })
 
