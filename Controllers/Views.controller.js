@@ -11,3 +11,7 @@ exports._ViewFilm=function (req,res){
         }
     })
 }
+
+exports._AddFilm = function(req, res) {
+    res.render('Movie_add')
+}
