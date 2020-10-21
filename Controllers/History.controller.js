@@ -60,20 +60,20 @@ exports._addHistory=async(req,res)=>{
 }
 
 exports._findHistory = async (req,res)=>{
-    History.find({user_id:req.params.user_id},function(err,data){
+    History.find({user_id:req.params.user_id}).populate('movie_id').sort({'create_at':-1}).exec(function(err,data){
         if (err) {
             res.json({
                 result:false,
-                message:'get history by user fail '+err.message
+                message:'get history movie by user_id fail :'+err.message
             })
         }else{
             res.json({
                 result:true,
-                message:'get history by user ok ',
-                items: data
+                message:'get history movie by user_id ok',
+                items:data
             })
         }
-    }).sort({'create_at':-1})
+    })
 }
 
 exports._deleteHistory = async (req,res) =>{

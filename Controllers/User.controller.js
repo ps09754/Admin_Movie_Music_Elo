@@ -5,168 +5,181 @@ const Movie = require('../Models/Movie')
 const User = require('../Models/User');
 const moment = require('moment');
 
-exports._addUser = async (req, res) => {
-    if (req.params.type === 'f') {
-        User.findOne({ 'facebook.id': req.body.id }, function (e1, r1) {
-            if (e1) {
-                res.json({
-                    result: false,
-                    message: 'check gmail user facebook fail : ' + e1.message,
-                    position: 1.1
-                })
 
-            } else {
-                if (r1 == [] || r1 == null) {
-                    let user = new User({
-                        facebook: {
-                            name: req.body.name,
-                            gmail: req.body.gmail,
-                            photo: req.body.photo,
-                            token: req.body.token,
-                            id: req.body.id,
-                        },
-                        login_at:moment().format('YYYY-MM-DD HH:mm')
-                    })
-
-                    user.save(function (e2) {
-                        if (e2) {
-                            res.json({
-                                result: false,
-                                position: 2.1,
-                                message: 'create user facebook fail : ' + e2.message
-                            })
-                        } else {
-                            res.json({
-                                result: true,
-                                position: 2.2,
-                                message: 'create user facebook ok!'
-                            })
-                        }
-                    })
-                } else {
-                    User.findOneAndUpdate({ 'facebook.gmail': req.body.gmail },{
-                        login_at:moment().format('YYYY-MM-DD HH:mm'),
-                    },function(er1){
-                        if (er1) {
-                            res.json({
-                                result: false,
-                                position: 1.1,
-                                message: 'check data user facebook -> update login fail '+er1.message,
-                                
-                            })
-                        }else{
-                            res.json({
-                                result: true,
-                                position: 1.2,
-                                message: 'check data user facebook -> return 1 user',
-                                items: r1
-                            })
-                        }
-                    })
-                }
-            }
+exports._getUser_Id = async (req, res) => {
+    let newUser = new User({
+        create_at: moment().format('YYYY-MM-DD HH:mm'),
+        login_at: moment().format('YYYY-MM-DD HH:mm'),
+        google_id: 'null',
+        facebook_id: 'null'
+    })
+    try {
+        const user_Id = (await newUser.save())._id
+        res.json({
+            result: true,
+            message: 'create user_id ok',
+            user_id: user_Id
         })
-    } else if (req.params.type === 'g') {
-        User.findOne({ 'google.gmail': req.body.gmail }, function (e1, r1) {
-            if (e1) {
-                res.json({
-                    result: false,
-                    message: 'check gmail user google fail : ' + e1.message,
-                    position: 1.1
-                })
-
-            } else {
-                if (r1 == [] || r1 == null) {
-                    let user = new User({
-                        google: {
-                            name: req.body.name,
-                            gmail: req.body.gmail,
-                            photo: req.body.photo,
-                            token: req.body.token
-                        },
-                        login_at:moment().format('YYYY-MM-DD HH:mm')
-                    })
-
-                    user.save(function (e2) {
-                        if (e2) {
-                            res.json({
-                                result: false,
-                                position: 2.1,
-                                message: 'create user google fail : ' + e2.message
-                            })
-                        } else {
-                            res.json({
-                                result: true,
-                                position: 2.2,
-                                message: 'create user google ok!'
-                            })
-                        }
-                    })
-                } else {
-                    res.json({
-                        result: true,
-                        position: 1.2,
-                        message: 'check data user google -> return 1 user',
-                        items: r1
-                    })
-                }
-            }
-        })
-    } else {
+    } catch (err) {
         res.json({
             result: false,
-            message: 'type = null ',
-            position: 3
+            message: 'create user_id false' + err.message
         })
     }
+
+}
+// login  
+exports._login = async (req, res) => {
+    if (req.params.type === 'g') {
+      User.findOne({_id:req.params.invite_id},function(err,user){
+          if (err) {
+              res.json({
+                  result:false,
+                  message:'login fail'+err.message
+              })
+          }else{
+              if (user.google_id == 'null') {
+                User.findOneAndUpdate({_id:req.params.invite_id},{
+                    google_id:req.params.id,
+                    login_at:moment().format('YYYY-MM-DD HH:mm')
+                },function(e){
+                    if (e) {
+                        res.json({
+                            result:false,
+                            message:'login google fail '+e.message
+                        })
+                    }else{
+                        res.json({
+                            result:true,
+                            position: 200,
+                            message:'login google ok'
+                        })
+                    }
+                })   
+              }else{
+                res.json({
+                    result:true,
+                    position: 100,
+                    message:'login google ok -> 1 user',
+                    items:user
+                })
+              }
+          }
+      })
+    } else  if (req.params.type === 'f') {
+        User.findOne({_id:req.params.invite_id},function(err,user){
+            if (err) {
+                res.json({
+                    result:false,
+                    message:'login fail'+err.message
+                })
+            }else{
+                if (user.facebook_id == 'null') {
+                  User.findOneAndUpdate({_id:req.params.invite_id},{
+                      facebook_id:req.params.id,
+                      login_at:moment().format('YYYY-MM-DD HH:mm')
+                  },function(e){
+                      if (e) {
+                          res.json({
+                              result:false,
+                              message:'login facebook fail '+e.message
+                          })
+                      }else{
+                          res.json({
+                              result:true,
+                              position: 200,
+                              message:'login facebook ok'
+                          })
+                      }
+                  })   
+                }else{
+                  res.json({
+                      result:true,
+                      position: 100,
+                      message:'login facebook ok -> 1 user',
+                      items:user
+                  })
+                }
+            }
+        })
+      }
 }
 
 exports._asyncUser = async (req, res) => {
     if (req.params.type === 'g') {
-        await User.findOneAndUpdate({ _id: req.params._id}, {
-            google: {
-                name: req.body.name,
-                gmail: req.body.gmail,
-                photo: req.body.photo,
-                token: req.body.token
-            },
-        },function(err){
-            if (err) {
+       User.findOne({'google_id':req.params.id},function(err,user){
+           if (err) {
+               res.json({
+                   result:false,
+                   message:'async user google fail '+err.message
+               })
+           }else{
+               if (user == [] || user == null || user == undefined ) {
+                   console.log('abc');
+                   User.findOneAndUpdate({_id:req.params.invite_id},{
+                       google_id:req.params.id
+                   },function(e){
+                       if (e) {
+                           res.json({
+                               result:false,
+                               message:'async user google fail '+e.message
+                           })
+                       }else{
+                           res.json({
+                               result:true,
+                               position:100,
+                               message:'async user google ok'
+                           })
+                       }
+                   })
+               }else{
                 res.json({
                     result:false,
-                    message:'async user google fail '+err.message
+                    message:'This google account is already in use',
+                    position:400,
+                    items:user
                 })
-            }else{
-                res.json({
-                    result:true,
-                    message:'async user google ok '
-                })
-            }
-        })
-    }else if (req.params.type === 'f') {
-        await User.findOneAndUpdate({ _id: req.params._id}, {
-            facebook: {
-                id: req.body.id,
-                token: req.body.token,
-                gmail: req.body.gmail,
-                name: req.body.name,
-                photo: req.body.photo
-            }
-        },function(err){
+               }
+           }
+       })
+    }else  if (req.params.type === 'f') {
+        User.findOne({'facebook_id':req.params.id},function(err,user){
             if (err) {
                 res.json({
                     result:false,
                     message:'async user facebook fail '+err.message
                 })
             }else{
-                res.json({
-                    result:true,
-                    message:'async user facebook ok '
-                })
+                if (user == [] || user == null || user == undefined ) {
+                    console.log('abc');
+                    User.findOneAndUpdate({_id:req.params.invite_id},{
+                        facebook_id:req.params.id
+                    },function(e){
+                        if (e) {
+                            res.json({
+                                result:false,
+                                message:'async user facebook fail '+e.message
+                            })
+                        }else{
+                            res.json({
+                                result:true,
+                                position:100,
+                                message:'async user facebook ok'
+                            })
+                        }
+                    })
+                }else{
+                 res.json({
+                     result:false,
+                     message:'This facebook account is already in use',
+                     position:400,
+                     items:user
+                 })
+                }
             }
         })
-    }
-    
+     }
+
 }
 
 
