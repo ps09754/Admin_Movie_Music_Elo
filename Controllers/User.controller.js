@@ -83,7 +83,8 @@ exports._addUser = async (req, res) => {
                             gmail: req.body.gmail,
                             photo: req.body.photo,
                             token: req.body.token
-                        }
+                        },
+                        login_at:moment().format('YYYY-MM-DD HH:mm')
                     })
 
                     user.save(function (e2) {

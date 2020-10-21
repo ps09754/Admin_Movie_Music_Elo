@@ -15,10 +15,14 @@ module.exports = function (app) {
         .post(Movie._updateMovie)
     app.route('/v3/movie/get/create_at')
         .get(Movie._getMovieByCreate_at)
+    app.route('/v3/movie/get/score')
+        .get(Movie._getMovieByScore)
 
     app.route('/v5/movie/delete/:_id')
         .get(Movie._deleteMovie)
 
     app.route('/v2/movie/set/score/:_id')
         .get(Movie._setScore)
+    app.route('/v6/movie/query/:text')
+        .get(Movie._search)
 };
