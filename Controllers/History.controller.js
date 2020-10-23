@@ -91,3 +91,19 @@ exports._deleteHistory = async (req,res) =>{
         }
     })
 }
+
+exports._deleteHistoryByInvite = async (req,res)=>{
+    History.remove({user_id:req.params.invite_id},function(err){
+        if (err) {
+            res.json({
+                result:false,
+                message:'remove history movie by invite fail '+err.message
+            })
+        }else{
+            res.json({
+                result:true,
+                message:'remove history movie by invite ok'
+            })
+        }
+    })
+}

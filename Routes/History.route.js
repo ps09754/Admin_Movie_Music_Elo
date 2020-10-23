@@ -7,4 +7,7 @@ module.exports = function (app) {
         .get(History._findHistory)
     app.route('/v5/history/delete/:_id')
         .get(History._deleteHistory)
+
+    app.route('/v5/history/delete/all/:invite_id')
+        .get(History._deleteHistoryByInvite)
 };
