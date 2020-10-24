@@ -94,7 +94,7 @@ exports._login = async (req, res) => {
                         position: 1200
                     })
                 } else {
-                    if (user[0]?.facebook_id === req.body.facebook_id) {
+                    if (user[0].facebook_id === req.body.facebook_id) {
                         res.json({
                             result: true,
                             message: 'login facebook ok  ',
