@@ -41,7 +41,7 @@ exports._login = async (req, res) => {
                         position: 1200
                     })
                 } else {
-                    if (user[0]?.google_id === req.body.google_id) {
+                    if (user[0] != null) {
                        
                         res.json({
                             result: true,
@@ -85,8 +85,7 @@ exports._login = async (req, res) => {
         }
     } else if (req.params.type === 'f') {
         if (req.body.facebook_id) {
-            User.find({ 'facebook_id': req.body.facebook_id }, function (err, user) {
-              
+            await User.find({ 'facebook_id': req.body.facebook_id }, function (err, user) {
                 if (err) {
                     res.json({
                         result: false,
@@ -94,7 +93,8 @@ exports._login = async (req, res) => {
                         position: 1200
                     })
                 } else {
-                    if (user[0]?.facebook_id === req.body.facebook_id) {
+                    console.log(user[0]);
+                    if (user[0] != null) {
                         res.json({
                             result: true,
                             message: 'login facebook ok  ',
