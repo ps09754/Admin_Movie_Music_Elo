@@ -63,5 +63,12 @@ Evaluate(app)
 const Comment = require('./Routes/Comment.route')
 Comment(app)
 
+app.get('/', (req, res) => {
+    // res.end('Welcome');
+    res.render('index');
+});
+
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, console.log(`Server started on port ${PORT}`));
+//a
