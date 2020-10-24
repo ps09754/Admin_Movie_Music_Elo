@@ -41,7 +41,7 @@ exports._login = async (req, res) => {
                         position: 1200
                     })
                 } else {
-                    if (user[0]?.google_id === req.body.google_id) {
+                    if (user[0].google_id === req.body.google_id) {
                        
                         res.json({
                             result: true,
