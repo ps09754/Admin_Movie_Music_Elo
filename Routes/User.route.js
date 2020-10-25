@@ -9,6 +9,6 @@ module.exports = function (app) {
     app.route('/v3/user/getUser/:id')
         .get(User._getDataUser_by_id)
 
-    app.route('/v4/user/async/:type/:invite_id/:id')
-        .get(User._asyncUser)
+    app.route('/v4/user/async/:type/:invite_id')
+        .post(User._asyncUser)
 };
