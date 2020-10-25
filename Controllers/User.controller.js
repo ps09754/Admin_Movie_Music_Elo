@@ -169,7 +169,7 @@ exports._asyncUser = async (req, res) => {
                 if (user == [] || user == null || user == undefined) {
                     console.log('abc');
                     User.findOneAndUpdate({ _id: req.params.invite_id }, {
-                        google_id: req.body.facebook_id,
+                        google_id: req.body.google_id,
                         google_gmail:req.body.google_gmail,
                         google_name:req.body.google_name,
                         google_token:req.body.google_token,
