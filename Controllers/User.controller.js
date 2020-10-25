@@ -174,7 +174,7 @@ exports._asyncUser = async (req, res) => {
                         google_name:req.body.google_name,
                         google_token:req.body.google_token,
                         google_photo:req.body.google_photo
-                    }, function (e,doc,res) {
+                    }, function (e) {
                         if (e) {
                             res.json({
                                 result: false,
@@ -185,7 +185,7 @@ exports._asyncUser = async (req, res) => {
                                 result: true,
                                 position: 100,
                                 message: 'async user google ok',
-                                items:res
+                               
                             })
                         }
                     })
