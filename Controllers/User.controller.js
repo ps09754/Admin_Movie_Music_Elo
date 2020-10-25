@@ -95,6 +95,7 @@ exports._login = async (req, res) => {
                 } else {
                     console.log(user[0]);
                     if (user[0] != null) {
+                        
                         res.json({
                             result: true,
                             message: 'login facebook ok  ',
@@ -152,7 +153,7 @@ exports._asyncUser = async (req, res) => {
                     console.log('abc');
                     User.findOneAndUpdate({ _id: req.params.invite_id }, {
                         google_id: req.params.id
-                    }, function (e) {
+                    }, function (e,doc,res) {
                         if (e) {
                             res.json({
                                 result: false,
@@ -162,7 +163,8 @@ exports._asyncUser = async (req, res) => {
                             res.json({
                                 result: true,
                                 position: 100,
-                                message: 'async user google ok'
+                                message: 'async user google ok',
+                                items:res
                             })
                         }
                     })
