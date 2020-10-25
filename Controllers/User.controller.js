@@ -58,10 +58,12 @@ exports._login = async (req, res) => {
                             google_name:req.body.google_name,
                             google_token:req.body.google_token,
                             google_gmail:req.body.google_gmail,
+                            google_photo:req.body.google_photo,
                             facebook_id: 'not null',
                             facebook_name:'not null',
                             facebook_token:'not null',
-                            facebook_gmail:'not null'
+                            facebook_gmail:'not null',
+                            facebook_photo:'not null'
                         })
                         try {
                             const user_Id = (newUser.save())._id
@@ -117,10 +119,12 @@ exports._login = async (req, res) => {
                             facebook_name:req.body.facebook_name,
                             facebook_token:req.body.facebook_token,
                             facebook_gmail:req.body.facebook_gmail,
+                            facebook_photo:req.body.facebook_photo,
                             google_id: 'not null',
                             google_name:'not null',
                             google_token:'not null',
-                            google_gmail:'not null'
+                            google_gmail:'not null',
+                            google_photo:'not null'
 
                         })
                         try {
@@ -168,7 +172,8 @@ exports._asyncUser = async (req, res) => {
                         google_id: req.params.id,
                         google_gmail:req.body.google_gmail,
                         google_name:req.body.google_name,
-                        google_token:req.body.google_token
+                        google_token:req.body.google_token,
+                        google_photo:req.body.google_photo
                     }, function (e,doc,res) {
                         if (e) {
                             res.json({
@@ -209,7 +214,8 @@ exports._asyncUser = async (req, res) => {
                         facebook_id: req.params.id,
                         facebook_name:req.body.facebook_name,
                         facebook_token:req.body.facebook_token,
-                        facebook_gmail:req.body.facebook_gmail
+                        facebook_gmail:req.body.facebook_gmail,
+                        facebook_photo:req.body.facebook_photo
                     }, function (e) {
                         if (e) {
                             res.json({
