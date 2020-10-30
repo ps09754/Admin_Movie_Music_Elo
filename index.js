@@ -63,6 +63,10 @@ Evaluate(app)
 const Comment = require('./Routes/Comment.route')
 Comment(app)
 
+//Follow
+const Follow = require('./Routes/Follow.route')
+Follow(app)
+
 app.get('/', (req, res) => {
     // res.end('Welcome');
     res.render('index');
