@@ -5,11 +5,12 @@ const Movie = require('../Models/Movie')
 const Cast = require('../Models/Cast')
 const Cast_Movie = require('../Models/Cast_Movie')
 const moment = require('moment');
-
+const Admin = require('../Contants/firebase_config');
+const { response } = require('express');
 // add movie by body
 
 exports._addMoviePostBody = (req, res) => {
-    console.log(req.body.name + 'abc');
+    // console.log(req.body.name + 'abc');
     var { name, directer, screenwriter, country, language, years, duration, introduction, cover_img, trailer } = req.body
     let movie_new = new Movie({
         name: name,
@@ -38,12 +39,33 @@ exports._addMoviePostBody = (req, res) => {
                 status: 'Error add Movie'
             });
         } else {
+            const message_option = {
+                topic: 'Movie',
+                data: {
+                    type:'not see',
+                    movie_name:name,
+                    photo:cover_img,
+                    alarms: moment().set('seconds', moment().get('seconds') + 30).format('YYYY-MM-DD HH:mm:ss')
+                }
+            }
+            Admin.admin.messaging().send(message_option).then(response => {
+                res.json({
+                    result: true,
+                    message: 'result ok movie',
+                    movie: movie_new,
+                    send: 'ok',
+                    dataSend: message_option
+                });
+            }).catch(e => {
+                res.json({
+                    result: false,
+                    message: 'ok',
+                    movie: movie_new,
+                    send: 'fail ' + e,
+                    dataSend: []
+                })
+            })
 
-            res.json({
-                result: true,
-                message: 'result ok movie',
-                movie: movie_new,
-            });
 
         }
     })
@@ -66,7 +88,7 @@ exports._getMovieByScore = async (req, res) => {
                 items: data
             })
         }
-    }).limit(10).sort({'score':-1})
+    }).limit(10).sort({ 'score': -1 })
 }
 
 // get Movie by id

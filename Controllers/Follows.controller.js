@@ -72,7 +72,7 @@ exports._deleteFollow=async(req,res)=>{
 }
 
 exports._findFollowUser=async(req,res)=>{
-    Follow.findOne({'user_id':req.params.user_id},function(err,data){
+    Follow.find({'user_id':req.params.user_id}).populate('movie_id').exec(function(err,data){
         if (err) {
             res.json({
                 result:false,
