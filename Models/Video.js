@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const schema = mongoose.Schema;
 
 const video = new schema({
-    status:{type:String,maxlength:300},
+    // status:{type:String,maxlength:300},
     create_at:Date,
     update_at:Date,
     delete_at:Date,

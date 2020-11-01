@@ -15,7 +15,7 @@ exports._addMoviePostBody = (req, res) => {
     let movie_new = new Movie({
         name: name,
         directer: directer,
-        status: '0/??',
+        status: 0,
         create_at: moment(new Date()).format('YYYY-MM-DD HH:mm'),
         update_at: null,
         delete_at: null,
@@ -24,7 +24,7 @@ exports._addMoviePostBody = (req, res) => {
         language: language,
         years: years,
         duration: duration,
-        episode: 0,
+        episode: req.body.episode,
         score: 0,
         introduction: introduction,
         cover_img: cover_img,

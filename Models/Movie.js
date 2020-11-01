@@ -4,7 +4,7 @@ const schema = mongoose.Schema;
 const Movie = new schema({
     name: { type: String, minlength: 1, maxlength: 900, index: true },
     directer: { type: String, minlength: 2, maxlength: 100 },
-    status: String,
+    status: Number,
     create_at: Date,
     update_at: Date,
     delete_at: Date,
@@ -13,7 +13,7 @@ const Movie = new schema({
     country: { type: String, minlength: 2, maxlength: 100 },
     language: { type: String, minlength: 2, maxlength: 100 },
     years: { type: String, minlength: 2, maxlength: 100 },
-    duration: { type: String, minlength: 2, maxlength: 100 },
+    duration: { type: Number, minlength: 1, maxlength: 9 },
     episode: { type: Number },
     score: Number,
     introduction: { type: String, minlength: 2 },
