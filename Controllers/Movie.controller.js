@@ -9,7 +9,7 @@ const Admin = require('../Contants/firebase_config');
 const { response } = require('express');
 // add movie by body
 
-exports._addMoviePostBody = (req, res) => {
+exports._addMoviePostBody = async (req, res) => {
     // console.log(req.body.name + 'abc');
     var { name, directer, screenwriter, country, language, years, duration, introduction, cover_img, trailer } = req.body
     let movie_new = new Movie({
@@ -30,9 +30,9 @@ exports._addMoviePostBody = (req, res) => {
         cover_img: cover_img,
         trailer: trailer
     })
-    movie_new.save(error => {
+    await movie_new.save(error => {
         if (error) {
-            res.render('truyen', { data: db, gata: gb });
+
             res.json({
                 result: false,
                 message: error.message,
@@ -40,12 +40,14 @@ exports._addMoviePostBody = (req, res) => {
             });
         } else {
             const message_option = {
-                topic: 'Movie',
+                topic: 'N-M-M',
                 data: {
-                    type:'not see',
-                    movie_name:name,
-                    photo:cover_img,
-                    alarms: moment().set('seconds', moment().get('seconds') + 30).format('YYYY-MM-DD HH:mm:ss')
+                    type: 'not see',
+                    movie_name: name,
+                    photo: cover_img,
+                    time_send: moment().format('YYYY-MM-DD HH:mm:ss'),
+                    directer: directer,
+                    screenwriter: screenwriter
                 }
             }
             Admin.admin.messaging().send(message_option).then(response => {
@@ -165,8 +167,8 @@ exports._getMovie_detail_byID = async (req, res) => {
 }
 
 // get movie by category_id
-exports._getMovie_by_categoryID = (req, res) => {
-    Category_Movie.find({ category_id: req.params.category_id }).populate('movie_id')
+exports._getMovie_by_categoryID = async (req, res) => {
+    await Category_Movie.find({ category_id: req.params.category_id }).populate('movie_id')
         .exec(function (err, data) {
             if (err) {
                 res.json({
@@ -187,7 +189,7 @@ exports._getMovie_by_categoryID = (req, res) => {
 // get all movie
 
 exports._getAllMovie = async (req, res) => {
-    Movie.find({}, function (err, data) {
+    await Movie.find({}, function (err, data) {
         if (err) {
             res.json({
                 result: false,
@@ -305,7 +307,7 @@ exports._search = async (req, res) => {
 
     var regex = new RegExp([`.*${req.params.text}.*`].join(""), "i");
 
-    Cast.find({ "name": regex }).exec(function (e, cast) {
+    await Cast.find({ "name": regex }).exec(function (e, cast) {
         if (e) {
             res.json({
                 result: false,
