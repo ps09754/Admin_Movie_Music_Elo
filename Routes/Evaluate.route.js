@@ -5,5 +5,6 @@ module.exports = function (app) {
         .post(Evaluate._addEvaluate) 
     app.route('/v3/evaluate/get/:movie_id')
         .get(Evaluate._findEvaluate)
-   
-};
+    app.route('/v3/evaluate/average/value/:movie_id')
+        .get(Evaluate._getValueAverageMovie)
+}; 

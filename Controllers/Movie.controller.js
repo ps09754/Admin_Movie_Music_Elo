@@ -7,6 +7,7 @@ const Cast_Movie = require('../Models/Cast_Movie')
 const moment = require('moment');
 const Admin = require('../Contants/firebase_config');
 const { response } = require('express');
+const {topPic} = require('../Contants/contants') 
 // add movie by body
 
 exports._addMoviePostBody = async (req, res) => {
@@ -40,9 +41,10 @@ exports._addMoviePostBody = async (req, res) => {
             });
         } else {
             const message_option = {
-                topic: 'N-M-M',
+                topic: topPic,
                 data: {
-                    type: 'not see',
+                    type: '0',
+                    movie_id:movie_new._id,
                     movie_name: name,
                     photo: cover_img,
                     time_send: moment().format('YYYY-MM-DD HH:mm:ss'),
@@ -252,7 +254,7 @@ exports._getMovieByCreate_at = async (req, res) => {
                 items: data
             });
         }
-    }).sort({ 'create_at': -1 })
+    }).sort({ 'create_at': -1 }).limit(req.params.limit)
 }
 
 // delete
@@ -332,6 +334,7 @@ exports._search = async (req, res) => {
 
         }
     })
+
 
 
 

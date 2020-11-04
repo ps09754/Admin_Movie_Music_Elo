@@ -7,28 +7,6 @@ const { populate } = require('../Models/Comment')
 
 
 exports._addEvaluate = async(req,res)=>{
-    // let evaluate = new Evaluate({
-    //     user_id:req.body.user_id,
-    //     movie_id:req.body.movie_id,
-    //     score:req.body.score,
-    //     create_at:moment().format('YYYY-MM-DD HH:mm'),
-    //     update_at:moment().format('YYYY-MM-DD HH:mm')
-    // })
-    // evaluate.save(function(e){
-    //     if (e) {
-    //         res.json({
-    //             result:false,
-    //             position:1,
-    //             message:'create evaluate fail '+ e.message
-    //         })
-    //     }else{
-    //         res.json({
-    //             result:true,
-    //             position:2,
-    //             message:'create evaluate ok !' + evaluate.create_at
-    //         })
-    //     }
-    // })
     await Evaluate.findOne({'user_id':req.body.user_id,'movie_id':req.body.movie_id},function(err,data){
         if (err) {
             res.json({
@@ -98,6 +76,27 @@ exports._findEvaluate = async (req,res) =>{
                 position:2,
                 message:'get evaluate ok '+moment().format('YYYY-MM-DD HH:mm'),
                 items:data
+            })
+        }
+    })
+}
+
+exports._getValueAverageMovie=async (req,res)=>{
+    await Evaluate.find({'movie_id':req.params.movie_id},function(err,data){
+        if (err) {
+            res.json({
+                result:false,
+                message:'get average evaluate  fail : '+err.message,
+                position: -999
+            })
+        }else{
+            let number = 0
+            data.map((e,i)=>{
+                number += data[i].score
+            })
+            res.json({
+                result:true,
+                number:number/data.length
             })
         }
     })
