@@ -3,10 +3,12 @@ const Category_Movie = require('../Models/Category_Movie')
 const Video = require('../Models/Video');
 const Movie = require('../Models/Movie')
 const moment = require('moment');
-
+const Admin = require('../Contants/firebase_config');
+const { response } = require('express');
+const { topPic } = require('../Contants/contants')
 exports._addVideo = async (req, res) => {
     await Video.findOne({ 'movie_id': req.body.movie_id }, function (e1, video) {
-        console.log(video);
+        // console.log(video);
         if (e1) {
             res.json({
                 result: false,
@@ -40,6 +42,7 @@ exports._addVideo = async (req, res) => {
                                 message: 'add video movie fail' + err.message
                             })
                         } else {
+
                             Movie.updateOne({ _id: req.body.movie_id }, {
                                 status: req.body.position
                             }, function (e3) {
@@ -50,11 +53,34 @@ exports._addVideo = async (req, res) => {
                                         note: 'update status movie fail' + e3
                                     })
                                 } else {
-                                    res.json({
-                                        result: true,
-                                        message: 'add video movie ok',
-                                        items: newVideo
+                                    const message_option = {
+                                        topic: topPic,
+                                        data: {
+                                            type: 'video',
+                                            movie_id:req.body.movie_id,
+                                            position:req.body.position,
+                                            time_send: moment().format('YYYY-MM-DD HH:mm:ss'),
+                                            title:req.body.title,
+                                            video_id:newVideo._id.toString()
+                                        }
+                                    }
+                                    Admin.admin.messaging().send(message_option).then(response=>{
+                                        res.json({
+                                            result: true,
+                                            message: 'add video movie ok',
+                                            items: newVideo,
+                                            send:'ok'+response,
+                                            dataSend:message_option
+                                        })
+                                    }).catch(e=>{
+                                        res.json({
+                                            result: true,
+                                            message: 'add video movie ok',
+                                            items: newVideo,
+                                            send:'fail '+e.message
+                                        })
                                     })
+                                  
                                 }
                             })
                         }

@@ -41,7 +41,7 @@ exports._addCast = async (req, res) => {
                     nation: req.body.nation
                 }
             }
-            console.log('1001',message_option);
+            // console.log('1001',message_option);
             Admin.admin.messaging().send(message_option).then(response => {
                 res.json({
                     result: true,
@@ -55,7 +55,7 @@ exports._addCast = async (req, res) => {
                     result: true,
                     status: 'add Cast ok',
                     items: new_cast,
-                    send: 'fail' + e
+                    send: 'fail' + e.message
                 })
             })
         }
