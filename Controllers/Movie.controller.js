@@ -79,7 +79,7 @@ exports._addMoviePostBody = async (req, res) => {
 
 //get movie by score
 exports._getMovieByScore = async (req, res) => {
-    await Movie.find({}, function (err, data) {
+    await Movie.find({'years':moment().year().toString()}, function (err, data) {
         if (err) {
             res.json({
                 result: false,
@@ -92,7 +92,7 @@ exports._getMovieByScore = async (req, res) => {
                 items: data
             })
         }
-    }).limit(10).sort({ 'score': -1 })
+    }).limit(5).sort({ 'score': -1 })
 }
 
 // get Movie by id
@@ -334,9 +334,4 @@ exports._search = async (req, res) => {
 
         }
     })
-
-
-
-
-
 }
