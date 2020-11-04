@@ -4,7 +4,9 @@ const Video = require('../Models/Video');
 const Movie = require('../Models/Movie')
 const Cast = require('../Models/Cast')
 const moment = require('moment');
-
+const Admin = require('../Contants/firebase_config');
+const { response } = require('express');
+const { topPic } = require('../Contants/contants')
 
 exports._addCast = async (req, res) => {
     let new_cast = new Cast({
@@ -27,11 +29,35 @@ exports._addCast = async (req, res) => {
                 status: 'Error add Cast'
             });
         } else {
-            res.json({
-                result: true,
-                status: 'add Cast ok',
-                items: new_cast
-            });
+            console.log('1001 ',new_cast._id);
+            const message_option = {
+                topic: topPic,
+                data: {
+                    type: 'cast',
+                    cast_name: req.body.name,
+                    cast_id: new_cast._id.toString(),
+                    photo: req.body.cover_image, 
+                    time_send: moment().format('YYYY-MM-DD HH:mm:ss'),
+                    nation: req.body.nation
+                }
+            }
+            console.log('1001',message_option);
+            Admin.admin.messaging().send(message_option).then(response => {
+                res.json({
+                    result: true,
+                    status: 'add Cast ok',
+                    items: new_cast,
+                    send: 'ok' + response,
+                    message: message_option
+                })
+            }).catch(e => {
+                res.json({
+                    result: true,
+                    status: 'add Cast ok',
+                    items: new_cast,
+                    send: 'fail' + e
+                })
+            })
         }
     })
 }
@@ -109,7 +135,7 @@ exports._updateCast = async (req, res) => {
         nation: req.body.nation,
         update_at: moment().format('YYYY-MM-DD HH:mm:ss'),
         story: req.body.story
-    }, function (err,cast) {
+    }, function (err, cast) {
         if (err) {
             res.json({
                 result: false,
@@ -120,16 +146,16 @@ exports._updateCast = async (req, res) => {
             res.json({
                 result: true,
                 title: 'update cast ok',
-                cast:cast
+                cast: cast
             })
         }
     })
 }
 
-exports._deleteCast = async(req,res)=>{
-    await Cast.updateOne({_id:req.params._id},{
-        delete_at:moment().format('YYYY-MM-DD HH:mm:ss')
-    },function(err){
+exports._deleteCast = async (req, res) => {
+    await Cast.updateOne({ _id: req.params._id }, {
+        delete_at: moment().format('YYYY-MM-DD HH:mm:ss')
+    }, function (err) {
         if (err) {
             res.json({
                 result: false,

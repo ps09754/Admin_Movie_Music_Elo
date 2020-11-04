@@ -43,8 +43,8 @@ exports._addMoviePostBody = async (req, res) => {
             const message_option = {
                 topic: topPic,
                 data: {
-                    type: '0',
-                    movie_id:movie_new._id,
+                    type: 'movie',
+                    movie_id:movie_new._id.toString(),
                     movie_name: name,
                     photo: cover_img,
                     time_send: moment().format('YYYY-MM-DD HH:mm:ss'),
