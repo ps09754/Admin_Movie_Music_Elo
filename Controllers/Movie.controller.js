@@ -49,7 +49,8 @@ exports._addMoviePostBody = async (req, res) => {
                     photo: cover_img,
                     time_send: moment().format('YYYY-MM-DD HH:mm:ss'),
                     directer: directer,
-                    screenwriter: screenwriter
+                    screenwriter: screenwriter,
+                    id:Math.floor(Math.random() * 100000000000).toString()
                 }
             }
             Admin.admin.messaging().send(message_option).then(response => {
