@@ -7,7 +7,7 @@ const Cast_Movie = require('../Models/Cast_Movie')
 const moment = require('moment');
 const Admin = require('../Contants/firebase_config');
 const { response } = require('express');
-const {topPic} = require('../Contants/contants') 
+const { topPic } = require('../Contants/contants')
 // add movie by body
 
 exports._addMoviePostBody = async (req, res) => {
@@ -42,16 +42,12 @@ exports._addMoviePostBody = async (req, res) => {
         } else {
             const message_option = {
                 topic: topPic,
-                data: {
-                    type: 'movie',
-                    movie_id:movie_new._id.toString(),
-                    movie_name: name,
-                    photo: cover_img,
-                    time_send: moment().format('YYYY-MM-DD HH:mm:ss'),
-                    directer: directer,
-                    screenwriter: screenwriter,
-                    id:Math.floor(Math.random() * 100000000000).toString()
-                }
+                notification: {
+                    title: name,
+                    body: directer+'/'+movie_new._id.toString(),
+                    imageUrl: 'https://my-cdn.com/app-logo.png',
+                  },
+             
             }
             Admin.admin.messaging().send(message_option).then(response => {
                 res.json({
@@ -80,7 +76,7 @@ exports._addMoviePostBody = async (req, res) => {
 
 //get movie by score
 exports._getMovieByScore = async (req, res) => {
-    await Movie.find({'years':moment().year().toString()}, function (err, data) {
+    await Movie.find({ 'years': moment().year().toString() }, function (err, data) {
         if (err) {
             res.json({
                 result: false,
