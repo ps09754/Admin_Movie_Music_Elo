@@ -44,9 +44,12 @@ exports._addMoviePostBody = async (req, res) => {
                 topic: topPic,
                 notification: {
                     title: name,
-                    body: directer+'/'+movie_new._id.toString(),
+                    body: directer,
                     imageUrl: 'https://my-cdn.com/app-logo.png',
                   },
+                data:{
+                    movie_id:movie_new._id.toString(),
+                }
              
             }
             Admin.admin.messaging().send(message_option).then(response => {
