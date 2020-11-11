@@ -45,7 +45,7 @@ exports._addMoviePostBody = async (req, res) => {
                 notification: {
                     title: name,
                     body: directer,
-                    imageUrl: 'https://my-cdn.com/app-logo.png',
+                    imageUrl: cover_img,
                   },
                 data:{
                     movie_id:movie_new._id.toString(),
