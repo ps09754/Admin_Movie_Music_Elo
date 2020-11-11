@@ -49,6 +49,7 @@ exports._addMoviePostBody = async (req, res) => {
                   },
                 data:{
                     movie_id:movie_new._id.toString(),
+                    type:'movie'
                 }
              
             }
