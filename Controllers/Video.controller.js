@@ -56,14 +56,18 @@ exports._addVideo = async (req, res) => {
                                 } else {
                                     const message_option = {
                                         topic: topPic,
-                                        data: {
-                                            type: 'video',
-                                            movie_id:req.body.movie_id,
+                                        notification: {
+                                            title: req.body.title,
+                                            body: 'Cập nhật lúc '+  moment().format('HH:mm')+ ' !'
+                                          },
+                                        data:{
                                             position:req.body.position,
-                                            time_send: moment().format('YYYY-MM-DD HH:mm:ss'),
-                                            title:req.body.title,
-                                            video_id:newVideo._id.toString()
+                                            movie_id:req.body.movie_id,
+                                            type:'video',
+                                            video_id:newVideo._id.toString(),
+                                            movie_id:req.body.movie_id,
                                         }
+                                     
                                     }
                                     Admin.admin.messaging().send(message_option).then(response=>{
                                         res.json({

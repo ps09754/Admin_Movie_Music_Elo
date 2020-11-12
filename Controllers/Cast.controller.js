@@ -29,18 +29,21 @@ exports._addCast = async (req, res) => {
                 status: 'Error add Cast'
             });
         } else {
-            console.log('1001 ',new_cast._id);
+
             const message_option = {
                 topic: topPic,
-                data: {
-                    type: 'cast',
-                    cast_name: req.body.name,
+                notification: {
+                    title: req.body.name,
+                    body: req.body.nation,
+                    imageUrl: req.body.cover_image,
+                  },
+                data:{
                     cast_id: new_cast._id.toString(),
-                    photo: req.body.cover_image, 
-                    time_send: moment().format('YYYY-MM-DD HH:mm:ss'),
-                    nation: req.body.nation
+                    type:'cast'
                 }
+             
             }
+
             // console.log('1001',message_option);
             Admin.admin.messaging().send(message_option).then(response => {
                 res.json({
