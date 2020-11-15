@@ -54,11 +54,13 @@ exports._addVideo = async (req, res) => {
                                     note: 'update status movie fail' + e3
                                 })
                             } else {
+                                console.log(doc.cover_img);
                                 const message_option = {
-                                    topic: topPic,
+                                    topic: req.body.movie_id,
                                     notification: {
                                         title: doc.name + ' tập ' + req.body.position,
-                                        body: 'Cập nhật lúc ' + moment().format('HH:mm') + ' !'
+                                        body: 'Cập nhật lúc ' + moment().format('HH:mm') + ' !',
+                                        imageUrl:doc.cover_img
                                     },
                                     data: {
                                         position: req.body.position,

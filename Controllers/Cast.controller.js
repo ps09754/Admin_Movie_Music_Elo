@@ -9,6 +9,7 @@ const { response } = require('express');
 const { topPic } = require('../Contants/contants')
 
 exports._addCast = async (req, res) => {
+    console.log('img',req.body.cover_image);
     let new_cast = new Cast({
         name: req.body.name,
         cover_image: req.body.cover_image,
@@ -34,11 +35,12 @@ exports._addCast = async (req, res) => {
                 topic: topPic,
                 notification: {
                     title: req.body.name,
-                    body: req.body.nation,
-                    imageUrl: req.body.cover_image,
+                    body: 'Sinh năm '+moment(new_cast.birthday).format('YYYY-MM-DD')+ ', là người quốc tich '+new_cast.nation,
+                    imageUrl: req.body.cover_image.toString(),
                   },
                 data:{
                     cast_id: new_cast._id.toString(),
+                    story:req.body.story,
                     type:'cast'
                 }
              
