@@ -8,89 +8,22 @@ const { response } = require('express');
 const { topPic } = require('../Contants/contants')
 
 exports._addVideo = async (req, res) => {
-    await Video.findOne({ 'movie_id': req.body.movie_id }, function (e1, video) {
-        // console.log(video);
+    await Video.findOne({ 'movie_id': req.body.movie_id, 'position': req.body.position }, function (e1, video) {
+        console.log(video);
         if (e1) {
-            res.json({
+            req.json({
                 result: false,
-                message: 'find position video movie fail' + err.message
+                ping: 999,
+                message: 'create video by movie fail'
             })
         } else {
             if (video) {
-                if (video.position == req.body.position) {
-                    console.log('bằng');
-                    res.json({
-                        result: false,
-                        message: 'video movie tập ' + video.position + ' đã tồn tại, vui lòng add video mới '
-                    })
-                } else {
-                    console.log('không bằng');
-                    let newVideo = new Video({
-                        create_at: moment().format('YYYY-MM-DD HH:mm:ss'),
-                        update_at: null,
-                        delete_at: null,
-                        movie_id: req.body.movie_id,
-                        title: 'Tập ' + req.body.position,
-                        position: req.body.position,
-                        link: req.body.link,
-                        type_source: req.body.type_source
-                    })
-
-                    newVideo.save(function (err) {
-                        if (err) {
-                            res.json({
-                                result: false,
-                                message: 'add video movie fail' + err.message
-                            })
-                        } else {
-
-                            Movie.updateOne({ _id: req.body.movie_id }, {
-                                status: req.body.position
-                            }, function (e3) {
-                                if (e3) {
-                                    res.json({
-                                        result: false,
-                                        message: 'add video movie fail' + err.message,
-                                        note: 'update status movie fail' + e3
-                                    })
-                                } else {
-                                    const message_option = {
-                                        topic: topPic,
-                                        notification: {
-                                            title: req.body.title,
-                                            body: 'Cập nhật lúc '+  moment().format('HH:mm')+ ' !'
-                                          },
-                                        data:{
-                                            position:req.body.position,
-                                            movie_id:req.body.movie_id,
-                                            type:'video',
-                                            video_id:newVideo._id.toString(),
-                                            movie_id:req.body.movie_id,
-                                        }
-                                     
-                                    }
-                                    Admin.admin.messaging().send(message_option).then(response=>{
-                                        res.json({
-                                            result: true,
-                                            message: 'add video movie ok',
-                                            items: newVideo,
-                                            send:'ok'+response,
-                                            dataSend:message_option
-                                        })
-                                    }).catch(e=>{
-                                        res.json({
-                                            result: true,
-                                            message: 'add video movie ok',
-                                            items: newVideo,
-                                            send:'fail '+e.message
-                                        })
-                                    })
-                                  
-                                }
-                            })
-                        }
-                    })
-                }
+                res.json({
+                    result: false,
+                    ping: 499,
+                    message: 'Movie này đã có tập ' + req.body.position + ', bạn không thể thêm 1 tập ' + req.body.position + ' khi đang tồn tại !',
+                    video:video
+                })
             } else {
                 let newVideo = new Video({
                     create_at: moment().format('YYYY-MM-DD HH:mm:ss'),
@@ -110,9 +43,10 @@ exports._addVideo = async (req, res) => {
                             message: 'add video movie fail' + err.message
                         })
                     } else {
-                        Movie.updateOne({ _id: req.body.movie_id }, {
+                        Movie.findOneAndUpdate({ _id: req.body.movie_id }, {
                             status: req.body.position
-                        }, function (e3) {
+                        }, function (e3, doc, movieData) {
+
                             if (e3) {
                                 res.json({
                                     result: false,
@@ -120,18 +54,46 @@ exports._addVideo = async (req, res) => {
                                     note: 'update status movie fail' + e3
                                 })
                             } else {
-                                res.json({
-                                    result: true,
-                                    message: 'add video movie ok',
-                                    items: newVideo
+                                const message_option = {
+                                    topic: topPic,
+                                    notification: {
+                                        title: doc.name + ' tập ' + req.body.position,
+                                        body: 'Cập nhật lúc ' + moment().format('HH:mm') + ' !'
+                                    },
+                                    data: {
+                                        position: req.body.position,
+                                        movie_id: req.body.movie_id,
+                                        type: 'video',
+                                        video_id: newVideo._id.toString(),
+                                        movie_id: req.body.movie_id,
+                                    }
+
+                                }
+                                Admin.admin.messaging().send(message_option).then(response => {
+                                    res.json({
+                                        result: true,
+                                        message: 'add video movie ok',
+                                        items: newVideo,
+                                        send: 'ok' + response,
+                                        dataSend: message_option
+                                    })
+                                }).catch(e => {
+                                    res.json({
+                                        result: true, 
+                                        message: 'add video movie ok',
+                                        items: newVideo,
+                                        send: 'fail ' + e.message
+                                    })
                                 })
+
                             }
                         })
                     }
                 })
             }
-
         }
+
+
     })
 }
 
