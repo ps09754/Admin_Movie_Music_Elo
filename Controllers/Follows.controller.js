@@ -89,3 +89,21 @@ exports._findFollowUser=async(req,res)=>{
         }
     })
 }
+
+exports._deleteAllFollow = async(req,res)=>{
+    await Follow.remove({'user_id':req.params.user_id},function(err){
+        if (err) {
+            res.json({
+                result:false,
+                ping:999,
+                message:'delete all follow by user fail '+err.message
+            })
+        }else{
+            res.json({
+                result:true,
+                ping:1,
+                message:'delete ok '
+            })
+        }
+    })
+}

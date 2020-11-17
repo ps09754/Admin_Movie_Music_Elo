@@ -5,6 +5,8 @@ module.exports = function (app) {
         .post(Follow._addFollow)
     app.route('/v5/follow/delete/:user_id/:movie_id')
         .get(Follow._deleteFollow)
+    app.route('/v5/follow/delete/user/:user_id')
+        .get(Follow._deleteAllFollow)
     app.route('/v3/follow/get/:user_id')
         .get(Follow._findFollowUser)
 };
