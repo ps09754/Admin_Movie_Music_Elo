@@ -11,7 +11,7 @@ exports._addVideo = async (req, res) => {
     await Video.findOne({ 'movie_id': req.body.movie_id, 'position': req.body.position }, function (e1, video) {
         console.log(video);
         if (e1) {
-            req.json({
+            res.json({
                 result: false,
                 ping: 999,
                 message: 'create video by movie fail'
@@ -46,7 +46,7 @@ exports._addVideo = async (req, res) => {
                         Movie.findOneAndUpdate({ _id: req.body.movie_id }, {
                             status: req.body.position
                         }, function (e3, doc, movieData) {
-
+                            
                             if (e3) {
                                 res.json({
                                     result: false,
@@ -55,38 +55,46 @@ exports._addVideo = async (req, res) => {
                                 })
                             } else {
                                 console.log(doc.cover_img);
-                                const message_option = {
-                                    topic: req.body.movie_id,
-                                    notification: {
-                                        title: doc.name + ' tập ' + req.body.position,
-                                        body: 'Cập nhật lúc ' + moment().format('HH:mm') + ' !',
-                                        imageUrl:doc.cover_img
-                                    },
-                                    data: {
-                                        position: req.body.position,
-                                        movie_id: req.body.movie_id,
-                                        type: 'video',
-                                        video_id: newVideo._id.toString(),
-                                        movie_id: req.body.movie_id,
+                                if (doc) {
+                                    const message_option = {
+                                        topic: req.body.movie_id,
+                                        notification: {
+                                            title: doc.name + ' tập ' + req.body.position,
+                                            body: 'Cập nhật lúc ' + moment().format('HH:mm') + ' !',
+                                            imageUrl:doc.cover_img
+                                        },
+                                        data: {
+                                            position: req.body.position,
+                                            movie_id: req.body.movie_id,
+                                            type: 'video',
+                                            video_id: newVideo._id.toString(),
+                                            movie_id: req.body.movie_id,
+                                        }
+    
                                     }
-
-                                }
-                                Admin.admin.messaging().send(message_option).then(response => {
-                                    res.json({
-                                        result: true,
-                                        message: 'add video movie ok',
-                                        items: newVideo,
-                                        send: 'ok' + response,
-                                        dataSend: message_option
+                                    Admin.admin.messaging().send(message_option).then(response => {
+                                        res.json({
+                                            result: true,
+                                            message: 'add video movie ok',
+                                            items: newVideo,
+                                            send: 'ok' + response,
+                                            dataSend: message_option
+                                        })
+                                    }).catch(e => {
+                                        res.json({
+                                            result: true, 
+                                            message: 'add video movie ok',
+                                            items: newVideo,
+                                            send: 'fail ' + e.message
+                                        })
                                     })
-                                }).catch(e => {
+                                }else{
                                     res.json({
                                         result: true, 
-                                        message: 'add video movie ok',
-                                        items: newVideo,
-                                        send: 'fail ' + e.message
+                                        message:'add video fail',
+                                        send: 'fail ' ,
                                     })
-                                })
+                                }
 
                             }
                         })
