@@ -1,7 +1,7 @@
 
 module.exports = function (app) {
     const Follow = require('../Controllers/Follows.controller')
-   app.route('/v1/follow/create')
+   app.route('/v1/follow/create/:type')
         .post(Follow._addFollow)
     app.route('/v5/follow/delete/:user_id/:movie_id')
         .get(Follow._deleteFollow)

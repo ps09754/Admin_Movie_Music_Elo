@@ -5,51 +5,99 @@ const Evaluate = require('../Models/Evaluate')
 const moment = require('moment')
 const Follow = require('../Models/Follows')
 const { populate } = require('../Models/Comment')
-
+const TypeFollow ={
+    movie:'movie',
+    cast:'cast'
+}
 
 
 exports._addFollow = async(req,res)=>{
-    Follow.findOne({'user_id':req.body.user_id,'movie_id':req.body.movie_id},function(err,data){
-        if (err) {
-            res.json({
-                result:false,
-                message :'Follow movie fail '+err.message,
-                position:500
-            })
-        }else{
-            if (data) {
+    if (req.params.type === TypeFollow.movie) {
+        Follow.findOne({'user_id':req.body.user_id,'movie_id':req.body.movie_id},function(err,data){
+            if (err) {
                 res.json({
                     result:false,
-                    message:'Movie đã follow rồi nhé ~~',
-                    position:400,
-                    items:data
+                    message :'Follow movie fail '+err.message,
+                    position:500
                 })
             }else{
-                let newFollow = new Follow({
-                    create_at:moment().format('YYYY-MM-DD'),
-                    movie_id:req.body.movie_id,
-                    user_id:req.body.user_id
-                })
-
-                newFollow.save(function(e){
-                    if (e) {
-                        res.json({
-                            result:false,
-                            message:'create Follow fail'+e.message,
-                            position:300
-                        })
-                    }else{
-                        res.json({
-                            result:true,
-                            message:'create ok ',
-                            position:200,
-                            id:newFollow._id
-                        })
-                    }
-                })
+                if (data) {
+                    res.json({
+                        result:false,
+                        message:'Movie đã follow rồi nhé ~~',
+                        position:400,
+                        items:data
+                    })
+                }else{
+                    let newFollow = new Follow({
+                        create_at:moment().format('YYYY-MM-DD'),
+                        movie_id:req.body.movie_id,
+                        user_id:req.body.user_id
+                    })
+    
+                    newFollow.save(function(e){
+                        if (e) {
+                            res.json({
+                                result:false,
+                                message:'create Follow fail'+e.message,
+                                position:300
+                            })
+                        }else{
+                            res.json({
+                                result:true,
+                                message:'create ok ',
+                                position:200,
+                                id:newFollow._id
+                            })
+                        }
+                    })
+                }
             }
-        }
-    })
+        })
+    }else if (req.params.type === TypeFollow.cast) {
+        Follow.findOne({'user_id':req.body.user_id,'cast_id':req.body.cast_id},function(err,data){
+            if (err) {
+                res.json({
+                    result:false,
+                    message :'Follow cast fail '+err.message,
+                    position:500
+                })
+            }else{
+                if (data) {
+                    res.json({
+                        result:false,
+                        message:'Cast đã follow rồi nhé ~~',
+                        position:400,
+                        items:data
+                    })
+                }else{
+                    let newFollow = new Follow({
+                        create_at:moment().format('YYYY-MM-DD'),
+                        cast_id:req.body.cast_id,
+                        user_id:req.body.user_id
+                    })
+    
+                    newFollow.save(function(e){
+                        if (e) {
+                            res.json({
+                                result:false,
+                                message:'create Follow fail'+e.message,
+                                position:300
+                            })
+                        }else{
+                            res.json({
+                                result:true,
+                                message:'create ok ',
+                                position:200,
+                                id:newFollow._id
+                            })
+                        }
+                    })
+                }
+            }
+        })
+    }
+   
 }
 
 exports._deleteFollow=async(req,res)=>{

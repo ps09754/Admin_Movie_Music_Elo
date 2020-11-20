@@ -4,6 +4,7 @@ const schema = mongoose.Schema;
 const follows = new schema({
     create_at:Date,
     movie_id: {type:schema.Types.ObjectId,ref: 'tbl_movie'},
+    cast_id:{type:schema.Types.ObjectId,ref: 'tbl_cast'},
     user_id:String,
 });
 
