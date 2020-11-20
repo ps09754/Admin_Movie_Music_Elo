@@ -32,6 +32,7 @@ exports._addFollow = async(req,res)=>{
                     let newFollow = new Follow({
                         create_at:moment().format('YYYY-MM-DD'),
                         movie_id:req.body.movie_id,
+                        type:req.params.type,
                         user_id:req.body.user_id
                     })
     
@@ -74,6 +75,7 @@ exports._addFollow = async(req,res)=>{
                     let newFollow = new Follow({
                         create_at:moment().format('YYYY-MM-DD'),
                         cast_id:req.body.cast_id,
+                        type:req.params.type,
                         user_id:req.body.user_id
                     })
     
@@ -120,22 +122,41 @@ exports._deleteFollow=async(req,res)=>{
 }
 
 exports._findFollowUser=async(req,res)=>{
-    Follow.find({'user_id':req.params.user_id}).populate('movie_id').exec(function(err,data){
-        if (err) {
-            res.json({
-                result:false,
-                message:'find follow by user fail '+err.message,
-                position:400
-            })
-        }else{
-            res.json({
-                result:true,
-                message:'find follow by user ok',
-                position:200,
-                items:data
-            })
-        }
-    })
+    if (req.params.type === TypeFollow.movie) {
+        Follow.find({'user_id':req.params.user_id,'type':req.params.type}).populate('movie_id').exec(function(err,data){
+            if (err) {
+                res.json({
+                    result:false,
+                    message:'find follow by user fail '+err.message,
+                    position:400
+                })
+            }else{
+                res.json({
+                    result:true,
+                    message:'find follow by user ok',
+                    position:200,
+                    items:data
+                })
+            }
+        })   
+    }else if (req.params.type === TypeFollow.cast) {
+        Follow.find({'user_id':req.params.user_id,'type':req.params.type}).populate('cast_id').exec(function(err,data){
+            if (err) {
+                res.json({
+                    result:false,
+                    message:'find follow by user fail '+err.message,
+                    position:400
+                })
+            }else{
+                res.json({
+                    result:true,
+                    message:'find follow by user ok',
+                    position:200,
+                    items:data
+                })
+            }
+        })   
+    }
 }
 
 exports._deleteAllFollow = async(req,res)=>{

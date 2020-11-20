@@ -7,6 +7,6 @@ module.exports = function (app) {
         .get(Follow._deleteFollow)
     app.route('/v5/follow/delete/user/:user_id')
         .get(Follow._deleteAllFollow)
-    app.route('/v3/follow/get/:user_id')
+    app.route('/v3/follow/get/:type/:user_id')
         .get(Follow._findFollowUser)
 };
