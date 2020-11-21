@@ -105,7 +105,7 @@ exports._getCategory_by_category_ID= (req,res) =>{
 
 // get all category
 exports._getAllCategory = async (req,res) =>{
-   await Category.find(function(err,cate){
+   await Category.find({delete_at: null},function(err,cate){
         if(err){
             res.json({
                 result:false,
