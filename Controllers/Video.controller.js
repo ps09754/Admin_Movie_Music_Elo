@@ -144,7 +144,7 @@ exports._getVideo = async (req, res) => {
                 items: video
             })
         }
-    })
+    }).limit(Number.parseInt(req.query.limit))
 }
 
 exports._getAllVideoByMovie = async (req, res) => {
@@ -161,7 +161,7 @@ exports._getAllVideoByMovie = async (req, res) => {
                 items: data
             })
         }
-    })
+    }).limit(Number.parseInt(req.query.limit))
 }
 
 exports._deleteVideo = async (req, res) => {

@@ -67,6 +67,14 @@ Comment(app)
 const Follow = require('./Routes/Follow.route')
 Follow(app)
 
+// Channel Music
+const Channel = require('./Routes/Channel_Music.route')
+Channel(app)
+
+// Music
+const Music = require('./Routes/Music.route')
+Music(app)
+
 app.get('/', (req, res) => {
     // res.end('Welcome');
     res.render('index');

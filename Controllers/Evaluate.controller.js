@@ -63,7 +63,7 @@ exports._addEvaluate = async(req,res)=>{
 }
 
 exports._findEvaluate = async (req,res) =>{
-    await Evaluate.findOne({'movie_id':req.params.movie_id}).populate('user_id').exec(function (err,data) {
+    await Evaluate.findOne({'movie_id':req.params.movie_id}).limit(Number.parseInt(req.query.limit)).populate('user_id').exec(function (err,data) {
         if (err) {
             res.json({
                 result:false,

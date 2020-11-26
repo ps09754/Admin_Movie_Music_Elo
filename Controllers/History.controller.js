@@ -60,7 +60,7 @@ exports._addHistory=async(req,res)=>{
 }
 
 exports._findHistory = async (req,res)=>{
-    History.find({user_id:req.params.user_id}).populate('movie_id').sort({'create_at':-1}).exec(function(err,data){
+    History.find({user_id:req.params.user_id}).limit(Number.parseInt(req.query.limit)).populate('movie_id').sort({'create_at':-1}).exec(function(err,data){
         if (err) {
             res.json({
                 result:false,

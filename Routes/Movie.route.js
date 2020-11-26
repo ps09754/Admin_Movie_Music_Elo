@@ -13,7 +13,7 @@ module.exports = function (app) {
         .get(Movie._getAllMovie)    
     app.route('/v4/movie/update/:_id')
         .post(Movie._updateMovie)
-    app.route('/v3/movie/get/create_at/:limit')
+    app.route('/v3/movie/get/create_at')
         .get(Movie._getMovieByCreate_at)
     app.route('/v3/movie/get/score')
         .get(Movie._getMovieByScore)

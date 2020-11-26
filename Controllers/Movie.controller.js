@@ -93,7 +93,7 @@ exports._getMovieByScore = async (req, res) => {
                 items: data
             })
         }
-    }).limit(5).sort({ 'score': -1 })
+    }).limit(Number.parseInt(req.query.limit)).sort({ 'score': -1 })
 }
 
 // get Movie by id
@@ -171,7 +171,7 @@ exports._getMovie_detail_byID = async (req, res) => {
 
 // get movie by category_id
 exports._getMovie_by_categoryID = async (req, res) => {
-    await Category_Movie.find({ category_id: req.params.category_id }).populate('movie_id')
+    await Category_Movie.find({ category_id: req.params.category_id }).populate('movie_id').limit(Number.parseInt(req.query.limit))
         .exec(function (err, data) {
             if (err) {
                 res.json({
@@ -206,7 +206,7 @@ exports._getAllMovie = async (req, res) => {
                 items: data
             })
         }
-    })
+    }).limit(Number.parseInt(req.query.limit))
 }
 // update
 exports._updateMovie = async (req, res) => {
@@ -231,7 +231,7 @@ exports._updateMovie = async (req, res) => {
                 message: 'update movie fail : ' + err.message,
 
             });
-        } else {
+        } else { 
             res.json({
                 result: true,
                 message: 'update movie ok!'
@@ -255,7 +255,7 @@ exports._getMovieByCreate_at = async (req, res) => {
                 items: data
             });
         }
-    }).sort({ 'create_at': -1 }).limit(req.params.limit)
+    }).sort({ 'create_at': -1 }).limit(Number.parseInt(req.query.limit))
 }
 
 // delete
@@ -310,14 +310,14 @@ exports._search = async (req, res) => {
 
     var regex = new RegExp([`.*${req.params.text}.*`].join(""), "i");
 
-    await Cast.find({ "name": regex }).exec(function (e, cast) {
+    await Cast.find({ "name": regex }).limit(Number.parseInt(req.query.limit)).exec(function (e, cast) {
         if (e) {
             res.json({
                 result: false,
                 message: 'search movie faill ' + e.message
             })
         } else {
-            Movie.find({ "name": regex }).exec(function (err, data) {
+            Movie.find({ "name": regex }).limit(Number.parseInt(req.query.limit)).exec(function (err, data) {
                 if (err) {
                     res.json({
                         result: false,
