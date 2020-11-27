@@ -1,4 +1,9 @@
-
+var cors = require('cors')
+var corsOptions = {
+    // origin: 'http://example.com',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  }
+   
 module.exports = function (app) {
     const Movie = require('../Controllers/Movie.controller')
    app.route('/v1/movie/add')
@@ -14,7 +19,7 @@ module.exports = function (app) {
     app.route('/v4/movie/update/:_id')
         .post(Movie._updateMovie)
     app.route('/v3/movie/get/create_at')
-        .get(Movie._getMovieByCreate_at)
+        .get(cors(corsOptions),Movie._getMovieByCreate_at)
     app.route('/v3/movie/get/score')
         .get(Movie._getMovieByScore)
 

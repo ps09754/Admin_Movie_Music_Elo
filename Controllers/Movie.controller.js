@@ -10,6 +10,7 @@ const { response } = require('express');
 const { topPic } = require('../Contants/contants')
 // add movie by body
 
+
 exports._addMoviePostBody = async (req, res) => {
     // console.log(req.body.name + 'abc');
     var { name, directer, screenwriter, country, language, years, duration, introduction, cover_img, trailer } = req.body
@@ -87,6 +88,7 @@ exports._getMovieByScore = async (req, res) => {
                 message: 'get movie by score hight fail' + err.message
             })
         } else {
+            res.header("Access-Control-Allow-Origin", "*");
             res.json({
                 result: true,
                 message: 'get movie by score hight ok',
@@ -226,12 +228,14 @@ exports._updateMovie = async (req, res) => {
         cover_img: req.body.cover_img
     }, function (err) {
         if (err) {
+            res.header("Access-Control-Allow-Origin", "*");
             res.json({
                 result: false,
                 message: 'update movie fail : ' + err.message,
 
             });
         } else { 
+            res.header("Access-Control-Allow-Origin", "*");
             res.json({
                 result: true,
                 message: 'update movie ok!'
@@ -241,14 +245,17 @@ exports._updateMovie = async (req, res) => {
 }
 
 // get movie by new Create_at
-exports._getMovieByCreate_at = async (req, res) => {
+exports._getMovieByCreate_at =  async (req, res) => {
     await Movie.find({}, function (err, data) {
         if (err) {
+            res.header("Access-Control-Allow-Origin", "*");
             res.json({
                 result: false,
                 message: 'get movie sort create_at fail : ' + err.message,
             });
         } else {
+            res.header("Access-Control-Allow-Origin", "*");
+            // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
             res.json({
                 result: true,
                 message: 'get movie sort create ok!',
@@ -264,11 +271,13 @@ exports._deleteMovie = async (req, res) => {
         delete_at: moment().format('YYYY-MM-DD HH:mm:ss')
     }, function (err) {
         if (err) {
+            res.header("Access-Control-Allow-Origin", "*");
             res.json({
                 result: false,
                 message: 'delete movie fail : ' + err.message,
             });
         } else {
+            res.header("Access-Control-Allow-Origin", "*");
             res.json({
                 result: true,
                 message: 'delete movie ok ',
@@ -281,6 +290,7 @@ exports._deleteMovie = async (req, res) => {
 exports._setScore = async (req, res) => {
     await Movie.find({ _id: req.params._id }, function (err, data) {
         if (err) {
+            res.header("Access-Control-Allow-Origin", "*");
             res.json({
                 result: false,
                 message: 'get movie set score fail : ' + err.message,
@@ -291,11 +301,13 @@ exports._setScore = async (req, res) => {
                 score: data[0].score + 1
             }, function (err1) {
                 if (err1) {
+                    res.header("Access-Control-Allow-Origin", "*");
                     res.json({
                         result: false,
                         message: 'set score movie fail : ' + err1.message,
                     });
                 } else {
+                    res.header("Access-Control-Allow-Origin", "*");
                     res.json({
                         result: true,
                         message: 'set score movie ok ',
@@ -312,6 +324,7 @@ exports._search = async (req, res) => {
 
     await Cast.find({ "name": regex }).limit(Number.parseInt(req.query.limit)).exec(function (e, cast) {
         if (e) {
+            res.header("Access-Control-Allow-Origin", "*");
             res.json({
                 result: false,
                 message: 'search movie faill ' + e.message
@@ -319,11 +332,13 @@ exports._search = async (req, res) => {
         } else {
             Movie.find({ "name": regex }).limit(Number.parseInt(req.query.limit)).exec(function (err, data) {
                 if (err) {
+                    res.header("Access-Control-Allow-Origin", "*");
                     res.json({
                         result: false,
                         message: 'search movie faill ' + err.message
                     })
                 } else {
+                    res.header("Access-Control-Allow-Origin", "*");
                     res.json({
                         result: true,
                         message: 'ok co data',

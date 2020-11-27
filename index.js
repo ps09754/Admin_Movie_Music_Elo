@@ -1,6 +1,7 @@
 var express = require('express');
 const bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+const cors = require('cors')
 
 var app = express();
 // set layout ejs
@@ -11,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 // public static folder
 app.use(express.static('Publics'));
-
+app.options('*', cors())
 const db = require('./Contants/MongoKey').mongoURI;
 mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true }, function (err) {
     if (err) {
