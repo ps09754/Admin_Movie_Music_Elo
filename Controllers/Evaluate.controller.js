@@ -63,7 +63,7 @@ exports._addEvaluate = async(req,res)=>{
 }
 
 exports._findEvaluateByUserIdAndMovieId = async (req,res) =>{
-    await Evaluate.findOne({'user_id':req.body.user_id,'movie_id':req.body.movie_id}, (function (err,data) {
+    await Evaluate.findOne({'user_id':req.params.user_id,'movie_id':req.params.movie_id}, (function (err,data) {
         if (err) {
             res.json({
                 result:false,
