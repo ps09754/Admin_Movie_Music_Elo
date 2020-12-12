@@ -162,3 +162,51 @@ exports._deleteCategory = async(req,res) =>{
         }
     })
 }
+
+exports._showCategoryList = (req, res) => {
+
+    Category.find({}, function (err, cate) {
+        if (err) {
+            res.render("category-list", { data: [] })
+
+        } else {
+            res.render("category-list", { data: cate })
+
+        }
+    })
+}
+
+exports._showCategoryAdd = (req, res) => {
+
+    res.render("category-add")
+}
+
+exports._showCategoryUpdate = (req, res) => {
+    //console.log(req.params);
+    //res.render("category-update",{})
+    let _id = req.params._id
+    Category.find({ _id: _id }, function (err, cate) {
+        if (err) {
+            res.send(err)
+        } else {
+            res.render("category-update", { data: cate })
+
+        }
+    })
+}
+
+exports._enableCategory = async (req, res) => {
+    await Category.updateOne({ _id: req.params._id }, {
+        delete_at: null
+    }, function (err) {
+        if (err) {
+            res.json({
+                result: false,
+                message: err.message,
+                status: 'Error enable category'
+            });
+        } else {
+            res.redirect("/cate-list")
+        }
+    })
+}

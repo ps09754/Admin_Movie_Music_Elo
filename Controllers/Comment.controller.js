@@ -9,7 +9,8 @@ exports._addComment = async (req, res) => {
     let comment = new Comment({
         movie_id: req.body.movie_id,
         user_id: req.body.user_id,
-        evaluate_id: req.body.evaluate_id,
+        //evaluate_id: req.body.evaluate_id,
+        evaluate_id: 0,
         message: req.body.message,
         create_at: moment().format('YYYY-MM-DD HH:mm'),
     })
