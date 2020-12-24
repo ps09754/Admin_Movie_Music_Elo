@@ -2,6 +2,7 @@ var express = require('express');
 const bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 const cors = require('cors')
+const key = require('./Contants/contants')
 
 var app = express();
 // set layout ejs
@@ -24,66 +25,11 @@ mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true }, functi
     }
 })
 
-// route film
-const Movie = require('./Routes/Movie.route');
-Movie(app)
-// route category
-const Category = require('./Routes/Category.route')
-Category(app)
-//route category_movie
-const Category_Movie = require('./Routes/Category_Movie.route')
-Category_Movie(app)
-// route user
-const User = require('./Routes/User.route')
-User(app)
-// route cast
-const Cast = require('./Routes/Cast.route')
-Cast(app)
+const Movie_Route = require('./Routes/Movie.route')
+Movie_Route(app, key.key)
 
-// route castMovie
-const castMovie = require('./Routes/Cast_Movie.route')
-castMovie(app)
-
-// route video 
-const video = require('./Routes/Video.route')
-video(app)
-
-// route views
-const views = require('./Routes/Views.route')
-views(app)
-
-// History
-const History = require('./Routes/History.route')
-History(app)
-
-// Evaluate 
-const Evaluate = require('./Routes/Evaluate.route')
-Evaluate(app)
-
-//comment
-const Comment = require('./Routes/Comment.route')
-Comment(app)
-
-//Follow
-const Follow = require('./Routes/Follow.route')
-Follow(app)
-
-// Channel Music
-const Channel = require('./Routes/Channel_Music.route')
-Channel(app)
-
-// Music
-const Music = require('./Routes/Music.route')
-Music(app)
-
-app.get('/', (req, res) => {
-    // res.end('Welcome');
-    res.redirect("dashboard")
-});
-app.get('/dashboard',(req,res)=>{
-    res.render('dashboard');
-
-})
+const Category_Route = require('./Routes/Category.route')
+Category_Route(app, key.key)
 
 
 const PORT = process.env.PORT || 3000;

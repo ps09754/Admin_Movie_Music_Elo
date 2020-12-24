@@ -2,13 +2,9 @@ const mongoose = require("mongoose");
 const schema = mongoose.Schema;
 
 const category = new schema({
-    name:{type:String,minlength:5,maxlength:100},
-    position:Number,
-    status:{type:String},
-    create_at:Date,
-    update_at:Date,
-    delete_at:Date,
-
+    title: String, // tên thể loại phim
+    create_at: Date,// ngày thêm thể loại  YYYY-MM-DD,
+    delete_at: Date,// ngày xóa thể loại
 });
 
-module.exports = mongoose.model("tbl_category", category);
+module.exports = mongoose.model("Category", category);
