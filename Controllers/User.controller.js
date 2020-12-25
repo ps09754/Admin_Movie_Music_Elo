@@ -5,29 +5,6 @@ const Movie = require('../Models/Movie')
 const User = require('../Models/User');
 const moment = require('moment');
 
-
-exports._getUser_Id = async (req, res) => {
-    let newUser = new User({
-        create_at: moment().format('YYYY-MM-DD HH:mm'),
-        login_at: moment().format('YYYY-MM-DD HH:mm'),
-        google_id: 'null',
-        facebook_id: 'null'
-    })
-    try {
-        const user_Id = (await newUser.save())._id
-        res.json({
-            result: true,
-            message: 'create user_id ok',
-            user_id: user_Id
-        })
-    } catch (err) {
-        res.json({
-            result: false,
-            message: 'create user_id false' + err.message
-        })
-    }
-
-}
 // login  
 exports._login = async (req, res) => {
     if (req.params.type === 'g') {

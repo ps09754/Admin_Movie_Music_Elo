@@ -31,6 +31,8 @@ Movie_Route(app, key.key)
 const Category_Route = require('./Routes/Category.route')
 Category_Route(app, key.key)
 
+const User_Route = require('./Routes/User.route')
+User_Route(app)
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, console.log(`Server started on port ${PORT}`));
